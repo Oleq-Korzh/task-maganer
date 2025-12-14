@@ -1,0 +1,91 @@
+/* Общий контейнер */
+.TasksPage {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Кнопка "назад" */
+.BackBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #007bff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.25s ease;
+  width: fit-content;
+}
+
+.BackBtn::before {
+  content: "←";
+  font-size: 1.1rem;
+}
+
+.BackBtn:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Верхняя панель */
+.TopPanel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Select фильтра */
+.FilterSelect {
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.25s ease, box-shadow 0.2s ease;
+}
+
+.FilterSelect:hover {
+  border-color: #007bff;
+}
+
+.FilterSelect:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+/* Кнопка добавления */
+.AddTaskBtn {
+  padding: 0.6rem 1.4rem;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  background: #28a745;
+  color: white;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.AddTaskBtn:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+.AddTaskBtn:active {
+  transform: translateY(0);
+}
+
+/* Сообщение, когда задач нет */
+.Empty {
+  text-align: center;
+  padding: 2rem 0;
+  color: #777;
+  font-size: 1.1rem;
+}

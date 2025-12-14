@@ -1,0 +1,11 @@
+.PriorityLabel_HIGH {
+  color: red;
+}
+
+.PriorityLabel_MEDIUM {
+  color: orange;
+}
+
+.PriorityLabel_LOW {
+  color: blue;
+}

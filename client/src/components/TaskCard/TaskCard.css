@@ -1,0 +1,74 @@
+.TaskCard {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.TaskCard:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border-color: #007bff;
+  transform: translateX(4px);
+}
+
+/* Header with actions */
+.TaskCard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 0.75rem;
+}
+
+.TaskCard-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* Edit button */
+.TaskCard-edit {
+  background: transparent;
+  border: none;
+  color: #0275d8;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 6px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.TaskCard-edit:hover {
+  color: #01549b;
+  transform: scale(1.2);
+}
+
+/* Delete button */
+.TaskCard-delete {
+  background: transparent;
+  border: none;
+  color: #d9534f;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 6px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.TaskCard-delete:hover {
+  color: #b52b27;
+  transform: scale(1.2);
+}
+
+.TaskCard h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.TaskCard p {
+  margin: 0.75rem 0 0 0;
+  color: #666;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}

@@ -1,0 +1,88 @@
+/* NewProjectPage.css */
+.NewProjectPage {
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.NewProjectPage > div:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #007bff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-bottom: 1rem;
+  width: fit-content;
+}
+
+.NewProjectPage > div:first-child::before {
+  content: "←";
+  font-size: 1.2rem;
+}
+
+.NewProjectPage > div:first-child:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.NewProjectPage h1 {
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 1.75rem;
+}
+
+.NewProjectPage form {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.NewProjectPage form > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.NewProjectPage input[type="text"],
+.NewProjectPage textarea,
+.NewProjectPage select {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.NewProjectPage input[type="text"]:focus,
+.NewProjectPage textarea:focus,
+.NewProjectPage select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.NewProjectPage textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.NewProjectPage button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.NewProjectPage button:hover {
+  background-color: #0056b3;
+}

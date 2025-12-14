@@ -1,0 +1,56 @@
+/* AuthForm.css */
+.AuthForm {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.AuthForm input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease;
+}
+
+.AuthForm input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.AuthForm button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.AuthForm button:hover {
+  background-color: #0056b3;
+}
+
+.AuthForm.logged-in {
+  gap: 1rem;
+}
+
+.AuthForm.logged-in span {
+  color: #333;
+  font-weight: 500;
+}
+
+.AuthForm.logged-in button {
+  background-color: #dc3545;
+}
+
+.AuthForm.logged-in button:hover {
+  background-color: #c82333;
+}
+
+.AuthForm .error {
+  color: #dc3545;
+  font-size: 0.85rem;
+}
