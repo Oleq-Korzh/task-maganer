@@ -1,6 +1,7 @@
-import { ComponentType } from "react";
+import { ReactNode } from "react";
 
 import AuthPage from "../pages/AuthPage/AuthPage";
+
 import EditProject from "../pages/EditProject/EditProject";
 import EditTask from "../pages/EditTask/EditTask";
 import MainPage from "../pages/MainPage/MainPage";
@@ -12,7 +13,7 @@ import TasksPage from "../pages/TasksPage/TasksPage";
 interface AppRoute {
   path: string;
   title?: string;
-  Component: ComponentType<any>;
+  Component: ReactNode;
   protected?: boolean;
   public?: boolean;
   hideInMenu?: boolean;
