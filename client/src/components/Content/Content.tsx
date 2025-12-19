@@ -1,8 +1,10 @@
 import { Route, Routes } from "react-router";
-import "./Content.css";
+
 import { menuItems } from "../../router/menu";
 import ProtectedRoute from "../../router/PrivateRouter";
 import PublicRoute from "../../router/PublicRouter";
+
+import "./Content.css";
 
 export default function Content() {
   return (

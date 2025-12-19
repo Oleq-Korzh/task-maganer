@@ -1,7 +1,9 @@
 import { useState } from "react";
-import "./AuthPage.css";
+
 import { loginAsync } from "../../store/features/auth";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+
+import "./AuthPage.css";
 
 function AuthPage() {
   const [username, setUsername] = useState<string>("");

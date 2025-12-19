@@ -1,7 +1,9 @@
-import { Navigate } from "react-router";
-import { urls } from "./menu";
-import { useAppSelector } from "../store/hooks";
 import { ReactNode } from "react";
+import { Navigate } from "react-router";
+
+import { useAppSelector } from "../store/hooks";
+
+import { urls } from "./menu";
 
 interface ProtectedRouteProps {
   children: ReactNode;

@@ -1,7 +1,8 @@
+import { useAppSelector } from "../../store/hooks";
 import AuthSidebar from "../AuthForm/AuthSidebar";
 import Menu from "../Menu/Menu";
+
 import "./Header.css";
-import { useAppSelector } from "../../store/hooks";
 
 export default function Header() {
   const { isAuth, user } = useAppSelector((state) => state.auth);

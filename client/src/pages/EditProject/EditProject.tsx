@@ -1,15 +1,16 @@
-import { useParams, useNavigate } from "react-router";
-import "./EditProject.css";
-import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router";
+
+import { PRIORITIES } from "../../common/priorities";
+import { urls } from "../../router/menu";
 import {
   editProjectAsync,
   getProjectsAsync,
 } from "../../store/features/projects";
-import { urls } from "../../router/menu";
-import { PRIORITIES } from "../../common/priorities";
-import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+
+import "./EditProject.css";
 
 const EditProject = () => {
   const navigate = useNavigate();

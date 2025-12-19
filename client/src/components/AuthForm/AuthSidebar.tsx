@@ -1,8 +1,11 @@
-import { logoutAsync } from "../../store/features/auth";
 import { useNavigate } from "react-router";
-import "./AuthSidebar.css";
+
 import { urls } from "../../router/menu";
+import { logoutAsync } from "../../store/features/auth";
 import { useAppDispatch } from "../../store/hooks";
+
+import "./AuthSidebar.css";
+
 import { AuthSidebarProps } from "./AuthSidebar.types";
 
 export default function AuthSidebar({ user }: AuthSidebarProps) {

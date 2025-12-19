@@ -1,10 +1,12 @@
 import { useDispatch } from "react-redux";
-import PriorityLabel from "../PriorityLabel/PriorityLabel";
-import "./ProjectCard.css";
-import { deleteProjectAsync } from "../../store/features/projects";
 import { useNavigate } from "react-router";
+
 import { urls } from "../../router/menu";
+import { deleteProjectAsync } from "../../store/features/projects";
 import { useAppDispatch } from "../../store/hooks";
+import PriorityLabel from "../PriorityLabel/PriorityLabel";
+
+import "./ProjectCard.css";
 
 interface ProjectCardProps {
   id: string;

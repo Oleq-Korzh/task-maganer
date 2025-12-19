@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+
 import { Task, TasksState } from "./types/tasks.types";
 
 const initialState: TasksState = {

@@ -1,4 +1,5 @@
 import { ComponentType } from "react";
+
 import AuthPage from "../pages/AuthPage/AuthPage";
 import EditProject from "../pages/EditProject/EditProject";
 import EditTask from "../pages/EditTask/EditTask";

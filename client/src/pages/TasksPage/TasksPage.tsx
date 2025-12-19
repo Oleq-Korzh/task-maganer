@@ -1,13 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router";
-import "./TasksPage.css";
-import TaskCard from "../../components/TaskCard/TaskCard";
 import { useEffect } from "react";
-import { getTasksAsync } from "../../store/features/tasks";
 import { useState } from "react";
 import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate,useParams } from "react-router";
+
+import TaskCard from "../../components/TaskCard/TaskCard";
 import { urls } from "../../router/menu";
+import { getTasksAsync } from "../../store/features/tasks";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+
+import "./TasksPage.css";
+
 import { ParamsTypes, Task } from "./TaskPage.types";
 
 export default function TasksPage() {

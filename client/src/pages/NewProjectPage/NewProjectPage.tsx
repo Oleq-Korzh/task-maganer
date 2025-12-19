@@ -1,11 +1,13 @@
 import { useEffect, useRef } from "react";
-import "./NewProjectPage.css";
-import { PRIORITIES } from "../../common/priorities";
 import { useDispatch, useSelector } from "react-redux";
-import { saveProjectAsync } from "../../store/features/projects";
 import { useNavigate } from "react-router";
+
+import { PRIORITIES } from "../../common/priorities";
 import { urls } from "../../router/menu";
+import { saveProjectAsync } from "../../store/features/projects";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+
+import "./NewProjectPage.css";
 
 export default function NewProjectPage() {
   const titleRef = useRef<HTMLInputElement>(null);

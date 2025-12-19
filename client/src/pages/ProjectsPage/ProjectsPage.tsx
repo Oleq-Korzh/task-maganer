@@ -1,11 +1,13 @@
-import { useNavigate } from "react-router";
-import ProjectCard from "../../components/ProjectCard/ProjectCard";
-import "./ProjectsPage.css";
 import { useEffect, useMemo } from "react";
-import { getProjectsAsync } from "../../store/features/projects";
-import { urls } from "../../router/menu";
 import { useState } from "react";
+import { useNavigate } from "react-router";
+
+import ProjectCard from "../../components/ProjectCard/ProjectCard";
+import { urls } from "../../router/menu";
+import { getProjectsAsync } from "../../store/features/projects";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+
+import "./ProjectsPage.css";
 
 export default function ProjectsPage() {
   const [search, setSearch] = useState<string>("");

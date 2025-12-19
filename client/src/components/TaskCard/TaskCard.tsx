@@ -1,10 +1,12 @@
 import { useDispatch } from "react-redux";
-import PriorityLabel from "../PriorityLabel/PriorityLabel";
-import "./TaskCard.css";
-import { deleteTaskAsync } from "../../store/features/tasks";
 import { useNavigate } from "react-router";
+
 import { urls } from "../../router/menu";
+import { deleteTaskAsync } from "../../store/features/tasks";
 import { useAppDispatch } from "../../store/hooks";
+import PriorityLabel from "../PriorityLabel/PriorityLabel";
+
+import "./TaskCard.css";
 
 interface TaskCardProps {
   id: string;

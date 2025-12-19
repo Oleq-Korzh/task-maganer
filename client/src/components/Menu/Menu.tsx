@@ -1,7 +1,9 @@
-import { menuItems } from "../../router/menu";
 import { Link } from "react-router";
-import "./Menu.css";
+
+import { menuItems } from "../../router/menu";
 import { useAppSelector } from "../../store/hooks";
+
+import "./Menu.css";
 
 export default function Menu() {
   const { isAuth } = useAppSelector((state) => state.auth);

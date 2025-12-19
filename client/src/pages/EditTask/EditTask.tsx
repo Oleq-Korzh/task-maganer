@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import "./EdiTask.css";
+
+import { urls } from "../../router/menu";
+import { getProjectsAsync } from "../../store/features/projects";
 import {
   editTaskAsync,
   getTasksAsync,
   saveTaskAsync,
 } from "../../store/features/tasks";
-import { urls } from "../../router/menu";
-import { getProjectsAsync } from "../../store/features/projects";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+
+import "./EdiTask.css";
+
 import { Task } from "./EditTask.types";
 
 // Лучше создам отдельно от проектов, мало ли приоритетов у задач будет больше
