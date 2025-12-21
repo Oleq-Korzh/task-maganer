@@ -3,9 +3,9 @@ import { useState } from "react";
 import { loginAsync } from "../../store/features/auth";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-import "./AuthPage.css";
+import "./AuthPage.scss";
 
-function AuthPage() {
+const AuthPage = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { error } = useAppSelector((state) => state.auth);
@@ -43,6 +43,6 @@ function AuthPage() {
       {error && <div className="error">{error}</div>}
     </>
   );
-}
+};
 
 export default AuthPage;

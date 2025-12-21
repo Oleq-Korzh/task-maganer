@@ -1,6 +1,6 @@
-import "./MainPage.css";
+import "./MainPage.scss";
 
-export default function MainPage() {
+const MainPage = () => {
   return (
     <div className="MainPage">
       <div className="hero-section">
@@ -54,4 +54,6 @@ export default function MainPage() {
       </div>
     </div>
   );
-}
+};
+
+export default MainPage;

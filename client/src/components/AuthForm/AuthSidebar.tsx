@@ -1,20 +1,20 @@
 import { useNavigate } from "react-router";
+import { APP_ROUTES } from "@router/routes";
 
-import { urls } from "../../router/menu";
 import { logoutAsync } from "../../store/features/auth";
 import { useAppDispatch } from "../../store/hooks";
 
-import "./AuthSidebar.css";
-
 import { AuthSidebarProps } from "./AuthSidebar.types";
 
-export default function AuthSidebar({ user }: AuthSidebarProps) {
+import "./AuthSidebar.scss";
+
+const AuthSidebar = ({ user }: AuthSidebarProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logoutAsync());
-    navigate(urls.AUTH);
+    navigate(APP_ROUTES.AUTH);
   };
 
   return (
@@ -27,4 +27,6 @@ export default function AuthSidebar({ user }: AuthSidebarProps) {
       </span>
     </div>
   );
-}
+};
+
+export default AuthSidebar;

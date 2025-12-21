@@ -1,15 +1,11 @@
-import { ReactNode } from "react";
 import { Navigate } from "react-router";
 
 import { useAppSelector } from "../store/hooks";
 
-import { urls } from "./menu";
+import { CustomRouterProps } from "./types/router.types";
+import { APP_ROUTES } from "./routes";
 
-interface ProtectedRouteProps {
-  children: ReactNode;
-}
-
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+export default function ProtectedRoute({ children }: CustomRouterProps) {
   const { isAuth, loaded } = useAppSelector((state) => state.auth);
 
   if (!loaded) {
@@ -17,7 +13,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   }
 
   if (!isAuth) {
-    return <Navigate to={urls.AUTH} replace />;
+    return <Navigate to={APP_ROUTES.AUTH} replace />;
   }
 
   return children;

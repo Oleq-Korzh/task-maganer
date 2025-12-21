@@ -1,48 +1,38 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-
-import { urls } from "../../router/menu";
-import { getProjectsAsync } from "../../store/features/projects";
 import {
-  editTaskAsync,
-  getTasksAsync,
-  saveTaskAsync,
-} from "../../store/features/tasks";
+  DEFAULT_TASK_PRIORITY,
+  TASKS_PRIORITIES,
+} from "@constants/taskPriorities";
+import { DEFAULT_TASK_STATUS, TASK_STATUS } from "@constants/taskStatus";
+import {
+  TaskFormProps,
+  TaskPriotiryProps,
+  TaskStatusProps,
+} from "@models/task.types";
+import { APP_ROUTES } from "@router/routes";
+
+import { getProjectsAsync } from "../../store/features/projects";
+import { editTaskAsync, getTasksAsync } from "../../store/features/tasks";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-import "./EdiTask.css";
-
-import { Task } from "./EditTask.types";
-
-// Лучше создам отдельно от проектов, мало ли приоритетов у задач будет больше
-
-const TASKS_PRIORITIES = {
-  HIGH: "High",
-  MEDIUM: "Medium",
-  LOW: "Low",
-};
-
-const TASKS_STATUS = {
-  todo: "Todo",
-  "in-progress": "In-progress",
-  done: "Done",
-  blocked: "Blocked",
-};
+import "./EdiTask.scss";
 
 const EditTask = () => {
-  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [priority, setPriority] = useState<string>("LOW");
-  const [status, setStatus] = useState<string>("todo");
-  const [assignee, setAssignee] = useState<string>("");
-  const [selectedProjectId, setSelectedProjectId] = useState<string>("");
+  const { id } = useParams<{ id: string }>();
   const { data: projects } = useAppSelector((state) => state.projects);
   const { data: tasks } = useAppSelector((state) => state.tasks);
   const currentTask = tasks.find((task) => task.id === id);
+  const [form, setForm] = useState<TaskFormProps>(() => ({
+    title: currentTask?.title ?? "",
+    description: currentTask?.description ?? "",
+    priority: currentTask?.priority ?? DEFAULT_TASK_PRIORITY,
+    status: currentTask?.status ?? DEFAULT_TASK_STATUS,
+    assignee: currentTask?.assignee ?? "",
+    projectId: currentTask?.projectId ?? "",
+  }));
 
   useEffect(() => {
     if (projects.length === 0) {
@@ -52,62 +42,26 @@ const EditTask = () => {
 
   useEffect(() => {
     if (!currentTask) {
-      dispatch(getTasksAsync());
+      dispatch(getTasksAsync(""));
     }
   }, [currentTask, dispatch]);
-
-  useEffect(() => {
-    setTitle(currentTask?.title ?? "");
-    setDescription(currentTask?.description ?? "");
-    setPriority(currentTask?.priority ?? "LOW");
-    setStatus(currentTask?.status ?? "todo");
-    setAssignee(currentTask?.assignee ?? "");
-    setSelectedProjectId(currentTask?.projectId ?? "");
-  }, [currentTask]);
 
   const handleSave = () => {
     if (!id) return;
 
-    const updatedTask: Partial<Task> = {
-      title,
-      description,
-      priority,
-      status,
-      assignee,
-      projectId: selectedProjectId,
-    };
-
-    dispatch(editTaskAsync({ id, payload: updatedTask }));
-    navigate(`${urls.SINGLE_PROJECT.replace(":projectId", selectedProjectId)}`);
+    dispatch(editTaskAsync({ id, payload: form }));
+    navigate(APP_ROUTES.SINGLE_PROJECT.replace(":projectId", form.projectId));
   };
 
   const handleBackButton = () => {
     navigate(-1);
   };
 
-  const handleInputTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleInputDesc = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(e.target.value);
-  };
-
-  const handleSelectPriority = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setPriority(e.target.value);
-  };
-
-  const handleSelectStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setStatus(e.target.value);
-  };
-
-  const handleSelectProject = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedProjectId(e.target.value);
-  };
-
-  const handleInputAssignee = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAssignee(e.target.value);
-  };
+  const updateForm =
+    <K extends keyof TaskFormProps>(key: K) =>
+    (value: TaskFormProps[K]) => {
+      setForm((prev) => ({ ...prev, [key]: value }));
+    };
 
   return (
     <div className="AddTaskPage">
@@ -120,25 +74,30 @@ const EditTask = () => {
         <input
           type="text"
           placeholder="Название задачи"
-          value={title}
-          onInput={handleInputTitle}
+          value={form.title}
+          onChange={(e) => updateForm("title")(e.target.value)}
         />
 
         <textarea
           placeholder="Описание"
-          value={description}
-          onInput={handleInputDesc}
+          value={form.description}
+          onChange={(e) => updateForm("description")(e.target.value)}
         />
 
         <input
           type="text"
           placeholder="Исполнитель"
-          value={assignee}
-          onInput={handleInputAssignee}
+          value={form.assignee}
+          onChange={(e) => updateForm("assignee")(e.target.value)}
         />
 
         <label>Приоритет</label>
-        <select value={priority} onChange={handleSelectPriority}>
+        <select
+          value={form.priority}
+          onChange={(e) =>
+            updateForm("priority")(e.target.value as TaskPriotiryProps)
+          }
+        >
           {Object.entries(TASKS_PRIORITIES).map(([key, priority]) => (
             <option key={key} value={key}>
               {priority}
@@ -147,8 +106,13 @@ const EditTask = () => {
         </select>
 
         <label>Статус</label>
-        <select value={status} onChange={handleSelectStatus}>
-          {Object.entries(TASKS_STATUS).map(([key, status]) => (
+        <select
+          value={form.status}
+          onChange={(e) =>
+            updateForm("status")(e.target.value as TaskStatusProps)
+          }
+        >
+          {Object.entries(TASK_STATUS).map(([key, status]) => (
             <option key={key} value={key}>
               {status}
             </option>
@@ -156,7 +120,10 @@ const EditTask = () => {
         </select>
 
         <label>Проект</label>
-        <select value={selectedProjectId} onChange={handleSelectProject}>
+        <select
+          value={form.projectId}
+          onChange={(e) => updateForm("projectId")(e.target.value)}
+        >
           <option value="">Выберите проект…</option>
           {projects.map((project) => (
             <option key={project.id} value={project.id}>

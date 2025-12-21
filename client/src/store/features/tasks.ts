@@ -1,57 +1,55 @@
+import { API_ROUTES } from "@api/apiRoutes";
+import { IdType } from "@models/id.types";
+import { TaskProps } from "@models/task.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-import { Task, TasksState } from "./types/tasks.types";
+import { TasksState } from "./types/tasks.types";
 
 const initialState: TasksState = {
   data: [],
 };
 
-/*
-{
-  id: string,
-  title: string,
-  description: string,
-  priority: string,
-  status: string,
-  assignee: string,
-  projectId: string,
-}
-*/
-
-const TASKS_URL = "http://localhost:3000/tasks";
-
-export const getTasksAsync = createAsyncThunk<Task[], string | undefined>(
+export const getTasksAsync = createAsyncThunk<TaskProps[], IdType | undefined>(
   "tasks/getList",
   async (projectId = "") => {
-    const result = await axios.get<Task[]>(`${TASKS_URL}/${projectId}`);
+    const result = await axios.get<TaskProps[]>(
+      `${API_ROUTES.TASKS_URL}/${projectId}`
+    );
+
     return result.data;
   }
 );
 
-export const saveTaskAsync = createAsyncThunk<Task, Partial<Task>>(
+export const saveTaskAsync = createAsyncThunk<TaskProps, Partial<TaskProps>>(
   "tasks/save",
   async (task) => {
-    const result = await axios.post<Task>(TASKS_URL, task);
+    const result = await axios.post<TaskProps>(API_ROUTES.TASKS_URL, task);
+
     return result.data;
   }
 );
 
-export const deleteTaskAsync = createAsyncThunk<Task[], string>(
+export const deleteTaskAsync = createAsyncThunk<TaskProps[], IdType>(
   "tasks/delete",
   async (id) => {
-    const result = await axios.delete(`${TASKS_URL}/${id}`);
+    const result = await axios.delete<TaskProps[]>(
+      `${API_ROUTES.TASKS_URL}/${id}`
+    );
 
     return result.data;
   }
 );
 
 export const editTaskAsync = createAsyncThunk<
-  Task[],
-  { id: string; payload: Partial<Task> }
+  TaskProps[],
+  { id: string; payload: Partial<TaskProps> }
 >("tasks/edit", async ({ id, payload }, { rejectWithValue }) => {
   try {
-    const result = await axios.put(`${TASKS_URL}/${id}`, payload);
+    const result = await axios.put<TaskProps[]>(
+      `${API_ROUTES.TASKS_URL}/${id}`,
+      payload
+    );
 
     return result.data;
   } catch (error) {
@@ -70,16 +68,33 @@ const tasksSlice = createSlice({
       state.data = action.payload;
     });
 
+    builder.addCase(getTasksAsync.rejected, (state, action) => {
+      state.data = [];
+      console.error(action?.error?.message);
+    });
+
     builder.addCase(deleteTaskAsync.fulfilled, (state, action) => {
       state.data = action.payload;
+    });
+
+    builder.addCase(deleteTaskAsync.rejected, (_, action) => {
+      console.error(action?.error?.message);
     });
 
     builder.addCase(editTaskAsync.fulfilled, (state, action) => {
       state.data = action.payload;
     });
 
+    builder.addCase(editTaskAsync.rejected, (_, action) => {
+      console.error(action?.error?.message);
+    });
+
     builder.addCase(saveTaskAsync.fulfilled, (state, action) => {
       state.data.push(action.payload);
+    });
+
+    builder.addCase(saveTaskAsync.rejected, (_, action) => {
+      console.error(action?.error?.message);
     });
   },
 });

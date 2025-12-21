@@ -9,5 +9,4 @@ export type NewProjectPayload = Omit<Project, "id">;
 
 export interface ProjectsState {
   data: Project[];
-  loaded: boolean;
 }

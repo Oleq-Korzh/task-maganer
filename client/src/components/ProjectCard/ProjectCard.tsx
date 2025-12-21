@@ -1,33 +1,30 @@
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { APP_ROUTES } from "@router/routes";
 
-import { urls } from "../../router/menu";
 import { deleteProjectAsync } from "../../store/features/projects";
 import { useAppDispatch } from "../../store/hooks";
 import PriorityLabel from "../PriorityLabel/PriorityLabel";
 
-import "./ProjectCard.css";
+import { ProjectCardProps } from "./ProjectCard.types";
 
-interface ProjectCardProps {
-  id: string;
-  title: string;
-  description: string;
-  priority: "HIGH" | "MEDIUM" | "LOW";
-  onClick?: (id: string) => void;
-}
+import "./ProjectCard.scss";
 
-export default function ProjectCard({
+const ProjectCard = ({
   id,
   title,
   description,
   priority,
   onClick,
-}: ProjectCardProps) {
+}: ProjectCardProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleClick = () => {
-    onClick && onClick(id);
+    if (!onClick) {
+      return;
+    }
+
+    onClick(id);
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,7 +34,12 @@ export default function ProjectCard({
 
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    id && navigate(urls.EDIT_PROJECT.replace(":id", id));
+
+    if (!id) {
+      return;
+    }
+
+    navigate(APP_ROUTES.EDIT_PROJECT.replace(":id", id));
   };
 
   return (
@@ -68,4 +70,6 @@ export default function ProjectCard({
       <p>{description}</p>
     </div>
   );
-}
+};
+
+export default ProjectCard;

@@ -1,33 +1,25 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
+import {
+  DEFAULT_TASK_PRIORITY,
+  TASKS_PRIORITIES,
+} from "@constants/taskPriorities";
+import { DEFAULT_TASK_STATUS, TASK_STATUS } from "@constants/taskStatus";
+import {
+  TaskFormProps,
+  TaskPriotiryProps,
+  TaskStatusProps,
+} from "@models/task.types";
+import { APP_ROUTES } from "@router/routes";
 
-import { urls } from "../../router/menu";
 import { getProjectsAsync } from "../../store/features/projects";
 import { saveTaskAsync } from "../../store/features/tasks";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-import "./NewTaskPage.css";
-
-import { NewTaskPayload, ParamsTypes, Task } from "./NewTaskPage.types";
-
-// Лучше создам отдельно от проектов, мало ли приоритетов у задач будет больше
-
-const TASKS_PRIORITIES = {
-  HIGH: "High",
-  MEDIUM: "Medium",
-  LOW: "Low",
-};
-
-const TASKS_STATUS = {
-  todo: "Todo",
-  "in-progress": "In-progress",
-  done: "Done",
-  blocked: "Blocked",
-};
+import "./NewTaskPage.scss";
 
 const NewTaskPage = () => {
-  const { projectId } = useParams<ParamsTypes>();
+  const { projectId } = useParams<"projectId">();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -35,8 +27,10 @@ const NewTaskPage = () => {
 
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [priority, setPriority] = useState<string>("LOW");
-  const [status, setStatus] = useState<string>("todo");
+  const [priority, setPriority] = useState<TaskPriotiryProps>(
+    DEFAULT_TASK_PRIORITY
+  );
+  const [status, setStatus] = useState<TaskStatusProps>(DEFAULT_TASK_STATUS);
   const [assignee, setAssignee] = useState<string>("");
   const [selectedProjectId, setSelectedProjectId] = useState<string>(
     projectId || ""
@@ -52,7 +46,7 @@ const NewTaskPage = () => {
   const handleSave = () => {
     if (!title.trim() || !description.trim() || !selectedProjectId) return;
 
-    const newTask: NewTaskPayload = {
+    const newTask: TaskFormProps = {
       title,
       description,
       priority,
@@ -62,7 +56,9 @@ const NewTaskPage = () => {
     };
 
     dispatch(saveTaskAsync(newTask));
-    navigate(`${urls.SINGLE_PROJECT.replace(":projectId", selectedProjectId)}`);
+    navigate(
+      `${APP_ROUTES.SINGLE_PROJECT.replace(":projectId", selectedProjectId)}`
+    );
   };
 
   const handleBackButton = () => {
@@ -78,11 +74,11 @@ const NewTaskPage = () => {
   };
 
   const handleSelectPriority = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setPriority(e.target.value);
+    setPriority(e.target.value as TaskPriotiryProps);
   };
 
   const handleSelectStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setStatus(e.target.value);
+    setStatus(e.target.value as TaskStatusProps);
   };
 
   const handleSelectProject = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -132,11 +128,13 @@ const NewTaskPage = () => {
 
         <label>Статус</label>
         <select value={status} onChange={handleSelectStatus}>
-          {Object.entries(TASKS_STATUS).map(([key, status]) => (
-            <option key={key} value={key}>
-              {status}
-            </option>
-          ))}
+          {Object.entries(TASK_STATUS).map(([key, status]) => {
+            return (
+              <option key={key} value={key?.toLowerCase()}>
+                {status}
+              </option>
+            );
+          })}
         </select>
 
         {!projectId && (

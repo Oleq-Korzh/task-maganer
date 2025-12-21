@@ -1,74 +1,70 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { DEFAULT_PROJECT_PRIORITY } from "@constants/projectPriorities";
+import { TASKS_PRIORITIES } from "@constants/taskPriorities";
+import { ProjectFormTypes, ProjectPriotiryProps } from "@models/project.types";
+import { APP_ROUTES } from "@router/routes";
 
-import { PRIORITIES } from "../../common/priorities";
-import { urls } from "../../router/menu";
 import {
   editProjectAsync,
   getProjectsAsync,
 } from "../../store/features/projects";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-import "./EditProject.css";
+import "./EditProject.scss";
 
 const EditProject = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
+
   const { data: projects } = useAppSelector((state) => state.projects);
-  const project = projects.find((project) => project.id === id);
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [priority, setPriority] = useState<"HIGH" | "MEDIUM" | "LOW">("HIGH");
+
+  const project = useMemo(
+    () => projects.find((p) => p.id === id),
+    [projects, id]
+  );
 
   useEffect(() => {
-    if (!project) {
+    if (!projects.length) {
       dispatch(getProjectsAsync());
     }
-  }, [project, dispatch]);
+  }, [projects.length, dispatch]);
 
-  useEffect(() => {
-    if (!project) return;
+  const [form, setForm] = useState<ProjectFormTypes>(() => ({
+    title: project?.title ?? "",
+    description: project?.description ?? "",
+    priority: project?.priority ?? DEFAULT_PROJECT_PRIORITY,
+  }));
 
-    setTitle(project?.title ?? "");
-    setDescription(project?.description ?? "");
-    setPriority(project.priority.toUpperCase() as "HIGH" | "MEDIUM" | "LOW");
-  }, [project]);
-
-  const handleReturnToProjects = () => {
-    navigate(urls.PROJECTS_URL);
-  };
-
-  const handleInputTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleInputDesc = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(e.target.value);
-  };
-
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setPriority(e.target.value as "HIGH" | "MEDIUM" | "LOW");
-  };
+  const updateForm =
+    <K extends keyof ProjectFormTypes>(key: K) =>
+    (value: ProjectFormTypes[K]) => {
+      setForm((prev) => ({ ...prev, [key]: value }));
+    };
 
   const handleSave = () => {
-    if (!id || !project) return;
+    if (!id) return;
 
-    if (title.trim() !== "" && description.trim() !== "") {
-      dispatch(
-        editProjectAsync({
-          id: project.id,
-          payload: { title, description, priority },
-        })
-      );
-      handleReturnToProjects();
-    }
+    const { title, description } = form;
+
+    if (!title.trim() || !description.trim()) return;
+
+    dispatch(editProjectAsync({ id, payload: form }));
+    navigate(APP_ROUTES.PROJECTS_URL);
   };
+
+  const handleBack = () => {
+    navigate(APP_ROUTES.PROJECTS_URL);
+  };
+
+  if (!project) {
+    return <p>Загрузка проекта...</p>;
+  }
 
   return (
     <div className="EditProject">
-      <button className="back-button" onClick={handleReturnToProjects}>
+      <button className="back-button" onClick={handleBack}>
         ← Вернуться на все проекты
       </button>
 
@@ -77,27 +73,30 @@ const EditProject = () => {
       <form>
         <div>
           <input
-            value={title}
             type="text"
-            name="title"
             placeholder="Введите название проекта"
-            onInput={handleInputTitle}
+            value={form.title}
+            onChange={(e) => updateForm("title")(e.target.value)}
           />
         </div>
 
         <div>
           <textarea
-            value={description}
-            name="description"
             placeholder="Введите описание проекта"
-            onInput={handleInputDesc}
-          ></textarea>
+            value={form.description}
+            onChange={(e) => updateForm("description")(e.target.value)}
+          />
         </div>
 
         <div>
           <label className="priority-label">Приоритет:</label>
-          <select name="priority" value={priority} onChange={handleSelect}>
-            {Object.entries(PRIORITIES).map(([key, value]) => (
+          <select
+            value={form.priority}
+            onChange={(e) =>
+              updateForm("priority")(e.target.value as ProjectPriotiryProps)
+            }
+          >
+            {Object.entries(TASKS_PRIORITIES).map(([key, value]) => (
               <option key={key} value={key}>
                 {value}
               </option>
