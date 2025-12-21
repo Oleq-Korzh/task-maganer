@@ -1,3 +1,4 @@
+import { API_ROUTES } from "@api/apiRoutes";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { AuthResponse, AuthState, LoginCredentials } from "./types/auth.types";
@@ -18,7 +19,7 @@ export const loginAsync = createAsyncThunk<
   { rejectValue: string }
 >("auth/login", async (cred, { rejectWithValue }) => {
   try {
-    const res = await fetch("http://localhost:3000/login", {
+    const res = await fetch(API_ROUTES?.USER?.LOGIN_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +44,7 @@ export const checkAuthAsync = createAsyncThunk<AuthResponse>(
   "auth/check",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await fetch("http://localhost:3000/login/check");
+      const res = await fetch(API_ROUTES?.USER?.LOGIN_CHECK_URL);
       const data = await res.json();
 
       return data;
@@ -58,7 +59,7 @@ export const logoutAsync = createAsyncThunk<AuthResponse>(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await fetch("http://localhost:3000/logout", {
+      const res = await fetch(API_ROUTES?.USER?.LOGOUT_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

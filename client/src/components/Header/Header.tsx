@@ -2,9 +2,9 @@ import { useAppSelector } from "../../store/hooks";
 import AuthSidebar from "../AuthForm/AuthSidebar";
 import Menu from "../Menu/Menu";
 
-import "./Header.css";
+import "./Header.scss";
 
-export default function Header() {
+const Header = () => {
   const { isAuth, user } = useAppSelector((state) => state.auth);
 
   return (
@@ -13,4 +13,6 @@ export default function Header() {
       {isAuth && <AuthSidebar user={user} />}
     </div>
   );
-}
+};
+
+export default Header;

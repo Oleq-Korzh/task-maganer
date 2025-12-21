@@ -4,9 +4,9 @@ import { menuItems } from "../../router/menu";
 import ProtectedRoute from "../../router/PrivateRouter";
 import PublicRoute from "../../router/PublicRouter";
 
-import "./Content.css";
+import "./Content.scss";
 
-export default function Content() {
+const Content = () => {
   return (
     <Routes>
       {menuItems.map(
@@ -34,4 +34,6 @@ export default function Content() {
       )}
     </Routes>
   );
-}
+};
+
+export default Content;

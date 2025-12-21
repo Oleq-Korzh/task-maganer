@@ -3,9 +3,9 @@ import { Link } from "react-router";
 import { menuItems } from "../../router/menu";
 import { useAppSelector } from "../../store/hooks";
 
-import "./Menu.css";
+import "./Menu.scss";
 
-export default function Menu() {
+const Menu = () => {
   const { isAuth } = useAppSelector((state) => state.auth);
 
   return (
@@ -29,4 +29,6 @@ export default function Menu() {
       </ul>
     </nav>
   );
-}
+};
+
+export default Menu;

@@ -1,17 +1,17 @@
 import { useEffect, useMemo } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { APP_ROUTES } from "@router/routes";
 
 import ProjectCard from "../../components/ProjectCard/ProjectCard";
-import { urls } from "../../router/menu";
 import { getProjectsAsync } from "../../store/features/projects";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-import "./ProjectsPage.css";
+import "./ProjectsPage.scss";
 
-export default function ProjectsPage() {
+const ProjectsPage = () => {
   const [search, setSearch] = useState<string>("");
-  const [priorityFilter, setPriorityFilter] = useState("ALL");
+  const [priorityFilter, setPriorityFilter] = useState<string>("ALL");
   const { data: projects } = useAppSelector((state) => state.projects);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -28,8 +28,6 @@ export default function ProjectsPage() {
     setSearch(e.target.value.toLowerCase());
   };
 
-  // тут мы в принциме можем не создавать новый массив как с тасками [...array] ибо filter возвращает новый массив, а сорт мутируем
-  // ну и юзмемо - зачем нам каждый рендер пересчитывать, хотя в нашем случае мало это секономит, ибо тут все единственные ререндеры и так завязаны на проектах/фильтрации
   const filteredProjects = useMemo(
     () =>
       projects
@@ -64,7 +62,7 @@ export default function ProjectsPage() {
       <button
         type="button"
         className="AddProjectBtn"
-        onClick={() => navigate(urls.NEW_PROJECT_URL)}
+        onClick={() => navigate(APP_ROUTES.NEW_PROJECT_URL)}
       >
         + Add Project
       </button>
@@ -80,4 +78,6 @@ export default function ProjectsPage() {
       </div>
     </div>
   );
-}
+};
+
+export default ProjectsPage;

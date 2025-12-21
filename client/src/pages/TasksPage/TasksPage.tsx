@@ -1,22 +1,22 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate,useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { TASK_STATUS } from "@constants/taskStatus";
+import { capitalizeFirstLetter } from "@helpers/dom";
+import { TaskProps, TasksColumnsProps } from "@models/task.types";
+import { APP_ROUTES } from "@router/routes";
 
 import TaskCard from "../../components/TaskCard/TaskCard";
-import { urls } from "../../router/menu";
 import { getTasksAsync } from "../../store/features/tasks";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-import "./TasksPage.css";
+import "./TasksPage.scss";
 
-import { ParamsTypes, Task } from "./TaskPage.types";
-
-export default function TasksPage() {
+const TasksPage = () => {
   const [filterDate, setFilterDate] = useState("NEW");
   const { data: tasks } = useAppSelector((state) => state.tasks);
-  const { projectId } = useParams<ParamsTypes>();
+  const { projectId } = useParams<"projectId">();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -25,20 +25,20 @@ export default function TasksPage() {
   }, [dispatch, projectId]);
 
   const handleBackPage = () => {
-    navigate(urls.PROJECTS_URL);
+    navigate(APP_ROUTES.PROJECTS_URL);
   };
 
   const handleAddNewProject = () => {
     if (projectId) {
       navigate(
-        `${urls.NEW_TASK_IN_PROJECT_URL.replace(":projectId", projectId)}`
+        `${APP_ROUTES.NEW_TASK_IN_PROJECT_URL.replace(":projectId", projectId)}`
       );
     } else {
-      navigate(urls.NEW_TASK_URL);
+      navigate(APP_ROUTES.NEW_TASK_URL);
     }
   };
 
-  const filteredTasks = useMemo<Task[]>(() => {
+  const filteredTasks = useMemo<TaskProps[]>(() => {
     const filtered = projectId
       ? tasks.filter((task) => task.projectId === projectId)
       : tasks;
@@ -52,6 +52,22 @@ export default function TasksPage() {
         : dateB.getTime() - dateA.getTime();
     });
   }, [tasks, filterDate, projectId]);
+
+  const emptyColumns: TasksColumnsProps = {
+    [TASK_STATUS.TODO]: [],
+    [TASK_STATUS.IN_PROGRESS]: [],
+    [TASK_STATUS.BLOCKED]: [],
+    [TASK_STATUS.TESTING]: [],
+    [TASK_STATUS.DONE]: [],
+  };
+
+  const tasksByStatus = filteredTasks.reduce<TasksColumnsProps>(
+    (acc, task) => {
+      acc[task.status].push(task);
+      return acc;
+    },
+    { ...emptyColumns }
+  );
 
   return (
     <div className="TasksPage">
@@ -80,13 +96,19 @@ export default function TasksPage() {
         <span className="Empty">No tasks available</span>
       )}
 
-      {filteredTasks.map((task) => (
-        <TaskCard
-          key={task.id}
-          {...task}
-          priority={task.priority as "HIGH" | "MEDIUM" | "LOW"}
-        />
-      ))}
+      <div className="Board">
+        {Object.values(TASK_STATUS).map((status) => (
+          <div key={status} className="Column">
+            <h3>{capitalizeFirstLetter(status)}</h3>
+
+            {tasksByStatus[status].map((task) => (
+              <TaskCard key={task.id} {...task} />
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
-}
+};
+
+export default TasksPage;

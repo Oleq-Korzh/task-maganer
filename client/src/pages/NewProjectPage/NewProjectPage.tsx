@@ -1,44 +1,48 @@
-import { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useRef } from "react";
 import { useNavigate } from "react-router";
+import { TASKS_PRIORITIES } from "@constants/taskPriorities";
+import { ProjectPriotiryProps } from "@models/project.types";
+import { APP_ROUTES } from "@router/routes";
 
-import { PRIORITIES } from "../../common/priorities";
-import { urls } from "../../router/menu";
 import { saveProjectAsync } from "../../store/features/projects";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppDispatch } from "../../store/hooks";
 
-import "./NewProjectPage.css";
+import "./NewProjectPage.scss";
 
-export default function NewProjectPage() {
+const NewProjectPage = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const priorityRef = useRef<HTMLSelectElement>(null);
   const navigate = useNavigate();
-
-  const { loaded: isProjectSaved } = useAppSelector((state) => state.projects);
-
   const dispatch = useAppDispatch();
 
-  const handleSave = () => {
-    if (!titleRef.current || !descriptionRef.current || !priorityRef.current)
+  const handleSave = async () => {
+    if (
+      !titleRef.current?.value ||
+      !descriptionRef.current?.value ||
+      !priorityRef.current?.value
+    ) {
       return;
+    }
 
-    const title = titleRef.current.value.trim();
-    const description = descriptionRef.current.value.trim();
-    const priority = priorityRef.current.value as "LOW" | "HIGH" | "MEDIUM";
+    try {
+      const title = titleRef.current.value.trim();
+      const description = descriptionRef.current.value.trim();
+      const priority = priorityRef.current.value as ProjectPriotiryProps;
 
-    dispatch(saveProjectAsync({ title, description, priority }));
+      await dispatch(
+        saveProjectAsync({ title, description, priority })
+      ).unwrap();
+
+      navigate(APP_ROUTES.PROJECTS_URL);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleGoToBack = () => {
-    navigate(-1);
+    navigate(APP_ROUTES.PROJECTS_URL);
   };
-
-  useEffect(() => {
-    if (isProjectSaved) {
-      navigate(urls.PROJECTS_URL);
-    }
-  }, [navigate, isProjectSaved]);
 
   return (
     <div className="NewProjectPage">
@@ -62,7 +66,7 @@ export default function NewProjectPage() {
         </div>
         <div>
           <select name="priority" ref={priorityRef}>
-            {Object.entries(PRIORITIES).map(([key, value]) => (
+            {Object.entries(TASKS_PRIORITIES).map(([key, value]) => (
               <option key={key} value={key}>
                 {value}
               </option>
@@ -77,13 +81,6 @@ export default function NewProjectPage() {
       </form>
     </div>
   );
-}
+};
 
-{
-  /* 
-[
-  [key, value],
-  [key, value]
-]
-*/
-}
+export default NewProjectPage;

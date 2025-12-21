@@ -1,7 +1,4 @@
-import { ReactNode } from "react";
-
 import AuthPage from "../pages/AuthPage/AuthPage";
-
 import EditProject from "../pages/EditProject/EditProject";
 import EditTask from "../pages/EditTask/EditTask";
 import MainPage from "../pages/MainPage/MainPage";
@@ -10,84 +7,65 @@ import NewTaskPage from "../pages/NewTaskPage/NewTaskPage";
 import ProjectsPage from "../pages/ProjectsPage/ProjectsPage";
 import TasksPage from "../pages/TasksPage/TasksPage";
 
-interface AppRoute {
-  path: string;
-  title?: string;
-  Component: ReactNode;
-  protected?: boolean;
-  public?: boolean;
-  hideInMenu?: boolean;
-}
+import { AppRouteProps } from "./types/router.types";
+import { APP_ROUTES } from "./routes";
 
-export const urls = {
-  HOME_URL: "/",
-  NEW_PROJECT_URL: "/projects/new",
-  PROJECTS_URL: "/projects",
-  SINGLE_PROJECT: "/tasks/:projectId",
-  EDIT_PROJECT: "/projects/:id/edit",
-  TASKS_URL: "/tasks",
-  NEW_TASK_URL: "/tasks/new",
-  NEW_TASK_IN_PROJECT_URL: "/projects/:projectId/tasks/new",
-  EDIT_TASK: "/tasks/:id/edit",
-  AUTH: "/auth",
-};
-
-export const menuItems: AppRoute[] = [
+export const menuItems: AppRouteProps[] = [
   {
-    path: urls.HOME_URL,
+    path: APP_ROUTES.HOME_URL,
     title: "Main",
     Component: MainPage,
   },
   {
-    path: urls.PROJECTS_URL,
+    path: APP_ROUTES.PROJECTS_URL,
     title: "Projects",
     Component: ProjectsPage,
     protected: true,
   },
   {
-    path: urls.NEW_PROJECT_URL,
+    path: APP_ROUTES.NEW_PROJECT_URL,
     hideInMenu: true,
     Component: NewProjectPage,
     protected: true,
   },
   {
-    path: urls.SINGLE_PROJECT,
+    path: APP_ROUTES.SINGLE_PROJECT,
     hideInMenu: true,
     Component: TasksPage,
     protected: true,
   },
   {
-    path: urls.EDIT_PROJECT,
+    path: APP_ROUTES.EDIT_PROJECT,
     hideInMenu: true,
     Component: EditProject,
     protected: true,
   },
   {
-    path: urls.TASKS_URL,
+    path: APP_ROUTES.TASKS_URL,
     title: "Tasks",
     Component: TasksPage,
     protected: true,
   },
   {
-    path: urls.NEW_TASK_URL,
+    path: APP_ROUTES.NEW_TASK_URL,
     hideInMenu: true,
     Component: NewTaskPage,
     protected: true,
   },
   {
-    path: urls.NEW_TASK_IN_PROJECT_URL,
+    path: APP_ROUTES.NEW_TASK_IN_PROJECT_URL,
     hideInMenu: true,
     Component: NewTaskPage,
     protected: true,
   },
   {
-    path: urls.EDIT_TASK,
+    path: APP_ROUTES.EDIT_TASK,
     hideInMenu: true,
     Component: EditTask,
     protected: true,
   },
   {
-    path: urls.AUTH,
+    path: APP_ROUTES.AUTH,
     title: "Auth",
     Component: AuthPage,
     public: true,

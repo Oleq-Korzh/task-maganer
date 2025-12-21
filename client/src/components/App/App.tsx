@@ -8,7 +8,7 @@ import Header from "../Header/Header";
 
 import "./App.scss";
 
-function App() {
+const App = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -23,6 +23,6 @@ function App() {
       </BrowserRouter>
     </>
   );
-}
+};
 
 export default App;

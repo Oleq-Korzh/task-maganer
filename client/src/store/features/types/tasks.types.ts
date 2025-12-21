@@ -1,14 +1,4 @@
-export interface Task {
-  id: string;
-  title: string;
-  description: string;
-  priority: string;
-  status: string;
-  assignee: string;
-  projectId: string;
-  createdAt: string;
-}
-
+import { TaskProps } from "@models/task.types";
 export interface TasksState {
-  data: Task[];
+  data: TaskProps[];
 }

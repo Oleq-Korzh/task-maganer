@@ -1,8 +1,6 @@
-import "./PriorityLabel.css";
+import { PriorityLabelProps } from "./PriorityLabel.types";
 
-interface PriorityLabelProps {
-  priority: "HIGH" | "MEDIUM" | "LOW";
-}
+import "./PriorityLabel.scss";
 
 export default function PriorityLabel({ priority }: PriorityLabelProps) {
   return <strong className={"PriorityLabel_" + priority}>{priority}</strong>;

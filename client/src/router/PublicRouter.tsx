@@ -1,19 +1,15 @@
-import { ReactNode } from "react";
 import { Navigate } from "react-router";
 
 import { useAppSelector } from "../store/hooks";
 
-import { urls } from "./menu";
+import { CustomRouterProps } from "./types/router.types";
+import { APP_ROUTES } from "./routes";
 
-interface PublicRouteProps {
-  children: ReactNode;
-}
-
-export default function PublicRoute({ children }: PublicRouteProps) {
+export default function PublicRoute({ children }: CustomRouterProps) {
   const { isAuth } = useAppSelector((state) => state.auth);
 
   if (isAuth) {
-    return <Navigate to={urls.PROJECTS_URL} replace />;
+    return <Navigate to={APP_ROUTES.PROJECTS_URL} replace />;
   }
 
   return children;
