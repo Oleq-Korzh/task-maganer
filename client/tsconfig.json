@@ -24,7 +24,8 @@
       "@helpers/*": ["src/helpers/*"],
       "@api/*": ["src/api/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@models/*": ["src/types/*"]
+      "@models/*": ["src/types/*"],
+      "@schemes/*": ["src/schemes/*"]
     }
   },
   "include": ["src"],

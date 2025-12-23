@@ -1,26 +1,18 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
 import { TASKS_PRIORITIES } from "@constants/taskPriorities";
 import { TASK_STATUS } from "@constants/taskStatus";
-import { TaskFormProps } from "@models/task.types";
-import { ProjectTypes } from "@models/project.types";
-import "./TaskForm.scss";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 
-interface TaskFormComponentProps {
-  initialValues: TaskFormProps;
-  validationSchema: any;
-  onSubmit: (values: TaskFormProps) => void;
-  onCancel: () => void;
-  projects: ProjectTypes[];
-  submitLabel?: string;
-}
+import { TaskFormComponentProps } from "./TaskForm.types";
+
+import "./TaskForm.scss";
 
 const TaskForm = ({
   initialValues,
   validationSchema,
   onSubmit,
   projects,
+  onCancel,
   submitLabel = "Создать задачу",
-  
 }: TaskFormComponentProps) => {
   return (
     <Formik
@@ -71,30 +63,31 @@ const TaskForm = ({
           </Field>
         </div>
 
-        
-          <div className="form-group">
-            <label>Проект</label>
-            <Field name="projectId" as="select">
-              <option value="">Выберите проект…</option>
-              {projects.map((project) => (
-                <option key={project.id} value={project.id}>
-                  {project.title}
-                </option>
-              ))}
-            </Field>
-            <ErrorMessage
-              name="projectId"
-              component="div"
-              className="error-msg"
-            />
-          </div>
-        
+        <div className="form-group">
+          <label>Проект</label>
+          <Field name="projectId" as="select">
+            <option value="">Выберите проект…</option>
+            {projects.map((project) => (
+              <option key={project.id} value={project.id}>
+                {project.title}
+              </option>
+            ))}
+          </Field>
+          <ErrorMessage
+            name="projectId"
+            component="div"
+            className="error-msg"
+          />
+        </div>
 
-        <button className="SaveBtn" type="submit">
-          {submitLabel}
-        </button>
-
-    
+        <div>
+          <button className="SaveBtn" type="submit">
+            {submitLabel}
+          </button>
+          <button className="SaveBtn" type="button" onClick={onCancel}>
+            Назад
+          </button>
+        </div>
       </Form>
     </Formik>
   );

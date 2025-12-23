@@ -1,27 +1,16 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
-import * as Yup from "yup";
-
+import TaskForm from "@components/TaskForm/TaskForm";
 import { DEFAULT_TASK_PRIORITY } from "@constants/taskPriorities";
 import { DEFAULT_TASK_STATUS } from "@constants/taskStatus";
-import TaskForm from "../../components/TaskForm/TaskForm";
-import {
-  TaskFormProps,
-  TaskPriotiryProps,
-  TaskStatusProps,
-} from "@models/task.types";
+import { TaskFormProps } from "@models/task.types";
 import { APP_ROUTES } from "@router/routes";
+import { taskValidationSchema } from "@schemes/tasks/tasks.scheme";
+import { getProjectsAsync } from "@store/features/projects";
+import { saveTaskAsync } from "@store/features/tasks";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
 
-import { getProjectsAsync } from "../../store/features/projects";
-import { saveTaskAsync } from "../../store/features/tasks";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import "./NewTaskPage.scss";
-
-const validationSchema = Yup.object().shape({
-  title: Yup.string().required("Название задачи обязательно"),
-  description: Yup.string().required("Описание обязательно"),
-  projectId: Yup.string().required("Необходимо выбрать проект"),
-});
 
 const NewTaskPage = () => {
   const { projectId } = useParams<"projectId">();
@@ -34,8 +23,8 @@ const NewTaskPage = () => {
   const initialValues: TaskFormProps = {
     title: "",
     description: "",
-    priority: DEFAULT_TASK_PRIORITY as TaskPriotiryProps,
-    status: DEFAULT_TASK_STATUS as TaskStatusProps,
+    priority: DEFAULT_TASK_PRIORITY,
+    status: DEFAULT_TASK_STATUS,
     assignee: "",
     projectId: projectId || "",
   };
@@ -46,7 +35,7 @@ const NewTaskPage = () => {
     }
   }, [projects, dispatch]);
 
-  const handleSubmit = (values: typeof initialValues) => {
+  const handleSubmit = (values: TaskFormProps): void => {
     const newTask: TaskFormProps = {
       title: values.title,
       description: values.description,
@@ -73,14 +62,14 @@ const NewTaskPage = () => {
         Добавить задачу{" "}
         {currentProject && <span>для проекта {currentProject?.title}</span>}
       </h2>
+      <div onClick={handleBackButton}>Назад</div>
 
       <TaskForm
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={taskValidationSchema}
         onSubmit={handleSubmit}
         onCancel={handleBackButton}
         projects={projects}
-       
       />
     </div>
   );

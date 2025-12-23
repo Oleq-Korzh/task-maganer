@@ -1,11 +1,10 @@
 import { useEffect, useMemo } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import ProjectCard from "@components/ProjectCard/ProjectCard";
 import { APP_ROUTES } from "@router/routes";
-
-import ProjectCard from "../../components/ProjectCard/ProjectCard";
-import { getProjectsAsync } from "../../store/features/projects";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { getProjectsAsync } from "@store/features/projects";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
 
 import "./ProjectsPage.scss";
 

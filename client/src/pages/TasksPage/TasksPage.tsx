@@ -2,16 +2,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router";
+import TaskCard from "@components/TaskCard/TaskCard";
 import { TASK_STATUS } from "@constants/taskStatus";
 import { capitalizeFirstLetter } from "@helpers/dom";
-import { TaskProps, TasksColumnsProps } from "@models/task.types";
-import { APP_ROUTES } from "@router/routes";
 import { IdType } from "@models/id.types";
-import TaskCard from "../../components/TaskCard/TaskCard";
-import { getTasksAsync } from "../../store/features/tasks";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { TaskProps, TasksColumnsProps } from "@models/task.types";
 import { TaskStatusProps } from "@models/task.types";
-import { editTaskAsync } from "../../store/features/tasks";
+import { APP_ROUTES } from "@router/routes";
+import { getTasksAsync } from "@store/features/tasks";
+import { editTaskAsync } from "@store/features/tasks";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
 
 import "./TasksPage.scss";
 
@@ -40,14 +40,20 @@ const TasksPage = () => {
     }
   };
 
-  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, taskId: IdType) => {
+  const handleDragStart = (
+    e: React.DragEvent<HTMLDivElement>,
+    taskId: IdType
+  ) => {
     e.dataTransfer.setData("taskId", taskId.toString());
     e.dataTransfer.effectAllowed = "move";
-  }
+  };
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-  }
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>, newStatus: TaskStatusProps) => {
+  };
+  const handleDrop = (
+    e: React.DragEvent<HTMLDivElement>,
+    newStatus: TaskStatusProps
+  ) => {
     e.preventDefault();
     const taskId = e.dataTransfer.getData("taskId");
     if (!taskId) return;
@@ -115,18 +121,26 @@ const TasksPage = () => {
         <span className="Empty">No tasks available</span>
       )}
 
-      
       <div className="Board">
         {Object.values(TASK_STATUS).map((status) => (
-          <div key={status} className="Column" onDragOver={handleDragOver} onDrop={(e) => handleDrop(e, status)}>
+          <div
+            key={status}
+            className="Column"
+            onDragOver={handleDragOver}
+            onDrop={(e) => handleDrop(e, status)}
+          >
             <h3>{capitalizeFirstLetter(status)}</h3>
 
             {tasksByStatus[status].map((task) => (
-              <div key={task.id} id='draggable' draggable="true" onDragStart={(e) => handleDragStart(e, task.id)}>
-              <TaskCard key={task.id} {...task} />
+              <div
+                key={task.id}
+                id="draggable"
+                draggable="true"
+                onDragStart={(e) => handleDragStart(e, task.id)}
+              >
+                <TaskCard key={task.id} {...task} />
               </div>
             ))}
-
           </div>
         ))}
       </div>
