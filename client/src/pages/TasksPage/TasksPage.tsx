@@ -6,10 +6,12 @@ import { TASK_STATUS } from "@constants/taskStatus";
 import { capitalizeFirstLetter } from "@helpers/dom";
 import { TaskProps, TasksColumnsProps } from "@models/task.types";
 import { APP_ROUTES } from "@router/routes";
-
+import { IdType } from "@models/id.types";
 import TaskCard from "../../components/TaskCard/TaskCard";
 import { getTasksAsync } from "../../store/features/tasks";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { TaskStatusProps } from "@models/task.types";
+import { editTaskAsync } from "../../store/features/tasks";
 
 import "./TasksPage.scss";
 
@@ -35,6 +37,23 @@ const TasksPage = () => {
       );
     } else {
       navigate(APP_ROUTES.NEW_TASK_URL);
+    }
+  };
+
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, taskId: IdType) => {
+    e.dataTransfer.setData("taskId", taskId.toString());
+    e.dataTransfer.effectAllowed = "move";
+  }
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  }
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, newStatus: TaskStatusProps) => {
+    e.preventDefault();
+    const taskId = e.dataTransfer.getData("taskId");
+    if (!taskId) return;
+    const task = tasks.find((t) => t.id === taskId);
+    if (task && task.status !== newStatus) {
+      dispatch(editTaskAsync({ id: taskId, payload: { status: newStatus } }));
     }
   };
 
@@ -96,14 +115,18 @@ const TasksPage = () => {
         <span className="Empty">No tasks available</span>
       )}
 
+      
       <div className="Board">
         {Object.values(TASK_STATUS).map((status) => (
-          <div key={status} className="Column">
+          <div key={status} className="Column" onDragOver={handleDragOver} onDrop={(e) => handleDrop(e, status)}>
             <h3>{capitalizeFirstLetter(status)}</h3>
 
             {tasksByStatus[status].map((task) => (
+              <div key={task.id} id='draggable' draggable="true" onDragStart={(e) => handleDragStart(e, task.id)}>
               <TaskCard key={task.id} {...task} />
+              </div>
             ))}
+
           </div>
         ))}
       </div>
