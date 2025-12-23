@@ -1,7 +1,6 @@
 import { useState } from "react";
-
-import { loginAsync } from "../../store/features/auth";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { loginAsync } from "@store/features/auth";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
 
 import "./AuthPage.scss";
 

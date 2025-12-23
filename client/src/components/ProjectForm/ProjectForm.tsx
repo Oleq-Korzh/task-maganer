@@ -1,14 +1,9 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
 import { PROJECT_PRIORITIES } from "@constants/projectPriorities";
-import { ProjectFormTypes } from "@models/project.types";
-import "./ProjectForm.scss";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 
-interface ProjectFormComponentProps {
-  initialValues: ProjectFormTypes;
-  validationSchema?: any;
-  onSubmit: (values: ProjectFormTypes) => void;
-  submitLabel?: string;
-}
+import { ProjectFormComponentProps } from "./ProjectForm.types";
+
+import "./ProjectForm.scss";
 
 const ProjectForm = ({
   initialValues,
@@ -60,8 +55,6 @@ const ProjectForm = ({
         <button className="SaveBtn" type="submit">
           {submitLabel}
         </button>
-
-        
       </Form>
     </Formik>
   );
