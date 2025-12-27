@@ -5,8 +5,9 @@ import ProjectCard from "@components/ProjectCard/ProjectCard";
 import { APP_ROUTES } from "@router/routes";
 import { getProjectsAsync } from "@store/features/projects";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
+import Snowfall from "react-snowfall";
 
-import "./ProjectsPage.scss";
+import styles from "./ProjectsPage.module.scss";
 
 const ProjectsPage = () => {
   const [search, setSearch] = useState<string>("");
@@ -38,8 +39,12 @@ const ProjectsPage = () => {
   );
 
   return (
-    <div className="ProjectsPage">
-      <div className="FiltersBar">
+    <div className={styles.projectsPage}>
+      <Snowfall
+        color="lightblue"
+        snowflakeCount={200} />
+      <div className={styles.filtersBar}>
+
         <input
           type="text"
           value={search}
@@ -51,24 +56,24 @@ const ProjectsPage = () => {
           value={priorityFilter}
           onChange={(e) => setPriorityFilter(e.target.value)}
         >
-          <option value="ALL">Все приоритеты</option>
-          <option value="HIGH">Высокий</option>
-          <option value="MEDIUM">Средний</option>
-          <option value="LOW">Низкий</option>
+          <option value="ALL">All Priorities</option>
+          <option value="HIGH">High</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="LOW">Low</option>
         </select>
       </div>
 
       <button
         type="button"
-        className="AddProjectBtn"
+        className={styles.addProjectBtn}
         onClick={() => navigate(APP_ROUTES.NEW_PROJECT_URL)}
       >
-        + Add Project
+        Add Project
       </button>
 
-      <div className="Projects">
+      <div className={styles.projects}>
         {filteredProjects.length === 0 && (
-          <span className="EmptyMessage">No projects available</span>
+          <span className={styles.emptyMessage}>No projects available</span>
         )}
 
         {filteredProjects.map((project) => (

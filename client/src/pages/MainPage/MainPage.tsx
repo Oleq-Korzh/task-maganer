@@ -1,53 +1,58 @@
-import "./MainPage.scss";
+import styles from "./MainPage.module.scss";
+import Snowfall from "react-snowfall";
 
 const MainPage = () => {
+
+
   return (
-    <div className="MainPage">
-      <div className="hero-section">
+    <div className={styles.MainPage}>
+      <Snowfall
+        snowflakeCount={200} />
+      <div className={styles.heroSection}>
         <h1>Welcome to Project Manager</h1>
         <p>Organize your projects and tasks efficiently</p>
-        <div className="cta-buttons">
-          <button className="primary-btn">Get Started</button>
-          <button className="secondary-btn">Learn More</button>
+        <div className={styles.ctaButtons}>
+          <button className={styles.primaryBtn}>Get Started</button>
+          <button className={styles.secondaryBtn}>Learn More</button>
         </div>
       </div>
 
-      <div className="features-section">
+      <div className={styles.featuresSection}>
         <h2>Key Features</h2>
-        <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon">📋</div>
+        <div className={styles.featuresGrid}>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>📋</div>
             <h3>Project Management</h3>
             <p>Create and organize projects with ease</p>
           </div>
-          <div className="feature-card">
-            <div className="feature-icon">✅</div>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>✅</div>
             <h3>Task Tracking</h3>
             <p>Keep track of all your tasks in one place</p>
           </div>
-          <div className="feature-card">
-            <div className="feature-icon">🎯</div>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>🎯</div>
             <h3>Priority System</h3>
             <p>Set priorities to focus on what matters</p>
           </div>
-          <div className="feature-card">
-            <div className="feature-icon">📊</div>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>📊</div>
             <h3>Progress Monitoring</h3>
             <p>Track your progress in real-time</p>
           </div>
         </div>
       </div>
 
-      <div className="stats-section">
-        <div className="stat-item">
+      <div className={styles.statsSection}>
+        <div className={styles.statItem}>
           <h3>500+</h3>
           <p>Active Users</p>
         </div>
-        <div className="stat-item">
+        <div className={styles.statItem}>
           <h3>10K+</h3>
           <p>Projects Created</p>
         </div>
-        <div className="stat-item">
+        <div className={styles.statItem}>
           <h3>50K+</h3>
           <p>Tasks Completed</p>
         </div>

@@ -3,13 +3,13 @@ import { Link } from "react-router";
 import { menuItems } from "../../router/menu";
 import { useAppSelector } from "../../store/hooks";
 
-import "./Menu.scss";
+import styles from "./Menu.module.scss";
 
 const Menu = () => {
   const { isAuth } = useAppSelector((state) => state.auth);
 
   return (
-    <nav>
+    <nav className={styles.menu}>
       <ul>
         {menuItems.map((item) => {
           if (

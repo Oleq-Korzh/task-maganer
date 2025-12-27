@@ -7,7 +7,7 @@ import PriorityLabel from "../PriorityLabel/PriorityLabel";
 
 import { ProjectCardProps } from "./ProjectCard.types";
 
-import "./ProjectCard.scss";
+import styles from "./ProjectCard.module.scss";
 
 const ProjectCard = ({
   id,
@@ -43,13 +43,13 @@ const ProjectCard = ({
   };
 
   return (
-    <div className="ProjectCard" onClick={handleClick}>
-      <div className="ProjectCard-header">
+    <div className={styles.card} onClick={handleClick}>
+      <div className={styles.header}>
         <h3>{title}</h3>
 
-        <div className="ProjectCard-actions">
+        <div className={styles.actions}>
           <button
-            className="ProjectCard-edit"
+            className={styles.edit}
             aria-label="Edit project"
             onClick={handleEdit}
           >
@@ -57,7 +57,7 @@ const ProjectCard = ({
           </button>
 
           <button
-            className="ProjectCard-delete"
+            className={styles.delete}
             onClick={handleDelete}
             aria-label="Delete project"
           >
@@ -67,7 +67,7 @@ const ProjectCard = ({
       </div>
 
       <PriorityLabel priority={priority} />
-      <p>{description}</p>
+      <p className={styles.description}>{description}</p>
     </div>
   );
 };

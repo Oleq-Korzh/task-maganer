@@ -23,7 +23,7 @@ const AuthSidebar = ({ user }: AuthSidebarProps) => {
         <b>User:</b> {user?.name} / <b>Role:</b> {user?.role}
       </span>
       <span className="logout" onClick={handleLogout}>
-        Выйти
+        Logout
       </span>
     </div>
   );

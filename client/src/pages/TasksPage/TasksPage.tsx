@@ -11,9 +11,11 @@ import { TaskStatusProps } from "@models/task.types";
 import { APP_ROUTES } from "@router/routes";
 import { getTasksAsync } from "@store/features/tasks";
 import { editTaskAsync } from "@store/features/tasks";
+import Snowfall from "react-snowfall";
+
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 
-import "./TasksPage.scss";
+import styles from "./TasksPage.module.scss";
 
 const TasksPage = () => {
   const [filterDate, setFilterDate] = useState("NEW");
@@ -95,41 +97,46 @@ const TasksPage = () => {
   );
 
   return (
-    <div className="TasksPage">
-      <div className="BackBtn" onClick={handleBackPage}>
-        Все проекты
+    <div className={styles.TasksPage}>
+      <Snowfall
+              color="lightblue"
+              snowflakeCount={200} />
+      <div className={styles.BackBtn} onClick={handleBackPage}>
+        All Projects
       </div>
 
-      <div className="TopPanel">
-        <div className="Filters">
+      <div className={styles.TopPanel}>
+        <div className={styles.Filters}>
           <select
-            className="FilterSelect"
+            className={styles.FilterSelect}
             value={filterDate}
             onChange={(e) => setFilterDate(e.target.value)}
           >
-            <option value="NEW">Сначала новые</option>
-            <option value="OLD">Сначала старые</option>
+            <option value="NEW">Newest First</option>
+            <option value="OLD">Oldest First</option>
           </select>
         </div>
 
-        <button className="AddTaskBtn" onClick={handleAddNewProject}>
+        <button className={styles.AddTaskBtn} onClick={handleAddNewProject}>
           + Create new task
         </button>
       </div>
 
       {filteredTasks.length === 0 && (
-        <span className="Empty">No tasks available</span>
+        <span className={styles.Empty}>No tasks available</span>
       )}
 
-      <div className="Board">
+      <div className={styles.Board}>
         {Object.values(TASK_STATUS).map((status) => (
           <div
             key={status}
-            className="Column"
+            className={styles.Column}
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, status)}
           >
-            <h3>{capitalizeFirstLetter(status)}</h3>
+            <h3 data-count={tasksByStatus[status].length}>
+              {capitalizeFirstLetter(status)}
+            </h3>
 
             {tasksByStatus[status].map((task) => (
               <div

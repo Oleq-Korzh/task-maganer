@@ -10,7 +10,7 @@ import { getProjectsAsync } from "@store/features/projects";
 import { editTaskAsync, getTasksAsync } from "@store/features/tasks";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 
-import "./EdiTask.scss";
+import styles from "./EditTask.module.scss";
 
 const EditTask = () => {
   const navigate = useNavigate();
@@ -53,9 +53,9 @@ const EditTask = () => {
   };
 
   return (
-    <div className="AddTaskPage">
+    <div className={styles.EditTask}>
       <h2>
-        Изменить задачу{" "}
+        Edit Task{" "}
         {currentTask?.title && <span>{currentTask?.title}</span>}
       </h2>
 
@@ -65,7 +65,7 @@ const EditTask = () => {
         onSubmit={handleSubmit}
         onCancel={handleBackButton}
         projects={projects}
-        submitLabel="Сохранить изменения"
+        submitLabel="Save Changes"
       />
     </div>
   );

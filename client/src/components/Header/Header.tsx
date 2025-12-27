@@ -2,13 +2,13 @@ import { useAppSelector } from "../../store/hooks";
 import AuthSidebar from "../AuthForm/AuthSidebar";
 import Menu from "../Menu/Menu";
 
-import "./Header.scss";
+import styles from "./Header.module.scss";
 
 const Header = () => {
   const { isAuth, user } = useAppSelector((state) => state.auth);
 
   return (
-    <div className="Header">
+    <div className={styles.Header}>
       <Menu />
       {isAuth && <AuthSidebar user={user} />}
     </div>

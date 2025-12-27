@@ -8,7 +8,7 @@ import PriorityLabel from "../PriorityLabel/PriorityLabel";
 
 import { TaskCardProps } from "./TaskCard.types";
 
-import "./TaskCard.scss";
+import styles from "./TaskCard.module.scss";
 
 export default function TaskCard({
   id,
@@ -31,13 +31,13 @@ export default function TaskCard({
   };
 
   return (
-    <div className="TaskCard">
-      <div className="TaskCard-header">
+    <div className={styles.card}>
+      <div className={styles.header}>
         <h3>{title}</h3>
 
-        <div className="TaskCard-actions">
+        <div className={styles.actions}>
           <button
-            className="TaskCard-edit"
+            className={styles.edit}
             aria-label="Edit task"
             onClick={handleEditTask}
           >
@@ -45,7 +45,7 @@ export default function TaskCard({
           </button>
 
           <button
-            className="TaskCard-delete"
+            className={styles.delete}
             onClick={handleDeleteTask}
             aria-label="Delete task"
           >
@@ -55,8 +55,8 @@ export default function TaskCard({
       </div>
 
       <PriorityLabel priority={priority} />
-      <p>{description.slice(0, 100)}</p>
-      <div>Status: {capitalizeFirstLetter(status)}</div>
+      <p className={styles.description}>{description.slice(0, 100)}</p>
+      <div className={styles.status}>Status: {capitalizeFirstLetter(status)}</div>
     </div>
   );
 }

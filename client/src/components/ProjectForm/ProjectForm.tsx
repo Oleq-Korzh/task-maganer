@@ -3,13 +3,13 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 
 import { ProjectFormComponentProps } from "./ProjectForm.types";
 
-import "./ProjectForm.scss";
+import styles from "./ProjectForm.module.scss";
 
 const ProjectForm = ({
   initialValues,
   validationSchema,
   onSubmit,
-  submitLabel = "Сохранить",
+  submitLabel = "Save",
 }: ProjectFormComponentProps) => {
   return (
     <Formik
@@ -18,31 +18,31 @@ const ProjectForm = ({
       onSubmit={onSubmit}
       enableReinitialize
     >
-      <Form className="ProjectForm">
-        <div className="form-group">
+      <Form className={styles.Form}>
+        <div className={styles.formGroup}>
           <Field
             name="title"
             type="text"
-            placeholder="Введите название проекта"
+            placeholder="Enter project title"
           />
-          <ErrorMessage name="title" component="div" className="error-msg" />
+          <ErrorMessage name="title" component="div" className={styles.errorMsg} />
         </div>
 
-        <div className="form-group">
+        <div className={styles.formGroup}>
           <Field
             name="description"
             as="textarea"
-            placeholder="Введите описание проекта"
+            placeholder="Enter project description"
           />
           <ErrorMessage
             name="description"
             component="div"
-            className="error-msg"
+            className={styles.errorMsg}
           />
         </div>
 
-        <div className="form-group">
-          <label>Приоритет</label>
+        <div className={styles.formGroup}>
+          <label>Priority</label>
           <Field name="priority" as="select">
             {Object.entries(PROJECT_PRIORITIES).map(([key, priority]) => (
               <option key={key} value={key}>
@@ -52,9 +52,11 @@ const ProjectForm = ({
           </Field>
         </div>
 
-        <button className="SaveBtn" type="submit">
-          {submitLabel}
-        </button>
+        <div className={styles.actions}>
+          <button className={styles.submitBtn} type="submit">
+            {submitLabel}
+          </button>
+        </div>
       </Form>
     </Formik>
   );
