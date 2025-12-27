@@ -1,5 +1,6 @@
 import { API_ROUTES } from "@api/apiRoutes";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 import { AuthResponse, AuthState, LoginCredentials } from "./types/auth.types";
 
@@ -13,66 +14,37 @@ const initialState: AuthState = {
   loaded: false,
 };
 
-export const loginAsync = createAsyncThunk<
-  AuthResponse,
-  LoginCredentials,
-  { rejectValue: string }
->("auth/login", async (cred, { rejectWithValue }) => {
-  try {
-    const res = await fetch(API_ROUTES?.USER?.LOGIN_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(cred),
-    });
+export const loginAsync = createAsyncThunk<AuthResponse, LoginCredentials>(
+  "auth/login",
+  async (cred) => {
+    const res = await axios.post(API_ROUTES?.USER?.LOGIN_URL, cred);
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      return rejectWithValue(data.error);
-    }
-
-    return data;
-  } catch (error) {
-    console.log(error);
-    return rejectWithValue(error as string);
+    return res.data;
   }
-});
+);
 
 export const checkAuthAsync = createAsyncThunk<AuthResponse>(
   "auth/check",
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await fetch(API_ROUTES?.USER?.LOGIN_CHECK_URL);
-      const data = await res.json();
+  async () => {
+    const res = await axios.get(API_ROUTES?.USER?.LOGIN_CHECK_URL);
 
-      return data;
-    } catch (error) {
-      console.log(error);
-      return rejectWithValue(error);
-    }
+    return res.data;
   }
 );
 
 export const logoutAsync = createAsyncThunk<AuthResponse>(
   "auth/logout",
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await fetch(API_ROUTES?.USER?.LOGOUT_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  async () => {
+    const res = await fetch(API_ROUTES?.USER?.LOGOUT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      return data;
-    } catch (error) {
-      console.log(error);
-      return rejectWithValue("error");
-    }
+    return data;
   }
 );
 

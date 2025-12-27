@@ -1,3 +1,5 @@
+import UsersPage from "@pages/UsersPage/UsersPage";
+
 import AuthPage from "../pages/AuthPage/AuthPage";
 import EditProject from "../pages/EditProject/EditProject";
 import EditTask from "../pages/EditTask/EditTask";
@@ -15,6 +17,12 @@ export const menuItems: AppRouteProps[] = [
     path: APP_ROUTES.HOME_URL,
     title: "Main",
     Component: MainPage,
+  },
+  {
+    path: APP_ROUTES.USERS,
+    title: "Users",
+    Component: UsersPage,
+    protected: true,
   },
   {
     path: APP_ROUTES.PROJECTS_URL,

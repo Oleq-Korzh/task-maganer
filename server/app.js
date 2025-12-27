@@ -3,6 +3,12 @@ import cors from "cors";
 import { v4 as uuidv4 } from "uuid";
 import { projectsMock } from "./mockData/projects.js";
 import { tasksData } from "./mockData/tasks.js";
+import { usersMock } from "./mockData/users.js";
+
+const filteredUsersData = (user) => {
+  const { username, password, ...filterUser } = user;
+  return filterUser;
+};
 
 const app = express();
 app.use(express.json());
@@ -87,26 +93,30 @@ app.get("/tasks/:projectId", (request, response) => {
   return response.json(filtered);
 });
 
+app.get("/users/", (request, response) => {
+  return response.json(usersMock.map(filteredUsersData));
+});
+
 let currentUser = null;
 
-app.post("/login", (request, response) => {
-  const data = request.body;
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
 
-  if (data.username === "admin" && data.password === "admin") {
-    currentUser = {
-      id: 1,
-      name: "Oleg",
-      role: "admin",
-    };
+  const user = usersMock.find(
+    (u) => u.username === username && u.password === password
+  );
 
-    return response.json({
-      isAuth: true,
-      user: currentUser,
+  if (!user) {
+    return res.status(401).json({
+      error: "Invalid credentials",
     });
   }
 
-  response.status(401).json({
-    error: "Такого пользователя нет",
+  currentUser = filteredUsersData(user);
+
+  res.json({
+    isAuth: true,
+    user: currentUser,
   });
 });
 

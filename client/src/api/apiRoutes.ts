@@ -8,4 +8,5 @@ export const API_ROUTES = {
     LOGOUT_URL: `${API_BASE_URL}/logout`,
     LOGIN_CHECK_URL: `${API_BASE_URL}/login/check`,
   },
+  USERS: `${API_BASE_URL}/users`,
 } as const;

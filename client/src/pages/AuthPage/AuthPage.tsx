@@ -1,8 +1,19 @@
 import { useState } from "react";
 import { loginAsync } from "@store/features/auth";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { Form, Formik } from "formik";
 
 import styles from "./AuthPage.module.scss";
+
+interface LoginFormValues {
+  username: string;
+  password: string;
+}
+
+const initialValues: LoginFormValues = {
+  username: "",
+  password: "",
+};
 
 const AuthPage = () => {
   const [username, setUsername] = useState<string>("");
@@ -10,14 +21,8 @@ const AuthPage = () => {
   const { error } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (username.trim() !== "" && password.trim() !== "") {
-      dispatch(loginAsync({ username, password }));
-      setUsername("");
-      setPassword("");
-    }
+  const handleSubmit = () => {
+    dispatch(loginAsync({ username, password }));
   };
 
   return (
