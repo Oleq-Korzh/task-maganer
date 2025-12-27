@@ -10,7 +10,7 @@ import { getProjectsAsync } from "@store/features/projects";
 import { saveTaskAsync } from "@store/features/tasks";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 
-import "./NewTaskPage.scss";
+import styles from "./NewTaskPage.module.scss";
 
 const NewTaskPage = () => {
   const { projectId } = useParams<"projectId">();
@@ -57,20 +57,24 @@ const NewTaskPage = () => {
   };
 
   return (
-    <div className="AddTaskPage">
-      <h2>
-        Добавить задачу{" "}
-        {currentProject && <span>для проекта {currentProject?.title}</span>}
-      </h2>
-      <div onClick={handleBackButton}>Назад</div>
+    <div className={styles.newTaskPage}>
+      <div className={styles.container}>
+        <div className={styles.header}>
+         
+          <h2>
+            Add Task
+            {currentProject && <span>for project {currentProject?.title}</span>}
+          </h2>
+        </div>
 
-      <TaskForm
-        initialValues={initialValues}
-        validationSchema={taskValidationSchema}
-        onSubmit={handleSubmit}
-        onCancel={handleBackButton}
-        projects={projects}
-      />
+        <TaskForm
+          initialValues={initialValues}
+          validationSchema={taskValidationSchema}
+          onSubmit={handleSubmit}
+          onCancel={handleBackButton}
+          projects={projects}
+        />
+      </div>
     </div>
   );
 };

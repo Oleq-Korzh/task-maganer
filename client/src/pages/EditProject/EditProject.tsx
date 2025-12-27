@@ -12,7 +12,7 @@ import {
 } from "../../store/features/projects";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-import "./EditProject.scss";
+import styles from "./EditProject.module.scss";
 
 const EditProject = () => {
   const navigate = useNavigate();
@@ -47,22 +47,22 @@ const EditProject = () => {
   };
 
   if (!currentProject) {
-    return <p>Загрузка проекта...</p>;
+    return <p>Loading project...</p>;
   }
 
   return (
-    <div className="EditProject">
-      <button className="back-button" onClick={handleBack}>
-        ← Вернуться на все проекты
+    <div className={styles.EditProject}>
+      <button className={styles.backButton} onClick={handleBack}>
+        ← Back to all projects
       </button>
 
-      <h2>Редактировать проект</h2>
+      <h2>Edit Project</h2>
 
       <ProjectForm
         initialValues={initialValues}
         onSubmit={handleSubmit}
         validationSchema={ProjectValidationSchema}
-        submitLabel="Сохранить изменения"
+        submitLabel="Save Changes"
       />
     </div>
   );

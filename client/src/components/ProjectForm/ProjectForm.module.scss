@@ -1,0 +1,106 @@
+@use "sass:color";
+$primary-color: #7448ec;
+$text-color: #333;
+$border-color: #e0e0e0;
+$error-color: #dc3545;
+$input-bg: #fff;
+$input-focus-border: $primary-color;
+$radius: 8px;
+$transition: all 0.2s ease;
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  input,
+  textarea,
+  select {
+    padding: 0.75rem 1rem;
+    border-radius: $radius;
+    border: 1px solid $border-color;
+    font-size: 0.95rem;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: $input-bg;
+    transition: $transition;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: $input-focus-border;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    }
+
+    &::placeholder {
+      color: #999;
+    }
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: $text-color;
+  }
+
+  .errorMsg {
+    color: $error-color;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    &::before {
+      content: "⚠";
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    button {
+      flex: 1;
+      padding: 0.75rem 1.5rem;
+      border-radius: $radius;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: $transition;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.submitBtn {
+        background-color: $primary-color;
+        color: white;
+        box-shadow: 0 4px 6px rgba($primary-color, 0.2);
+
+        &:hover {
+          background-color: color.adjust($primary-color, $lightness: -5%);
+          transform: translateY(-1px);
+          box-shadow: 0 6px 8px rgba($primary-color, 0.25);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+}

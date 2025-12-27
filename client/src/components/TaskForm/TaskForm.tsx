@@ -4,7 +4,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 
 import { TaskFormComponentProps } from "./TaskForm.types";
 
-import "./TaskForm.scss";
+import styles from "./TaskForm.module.scss";
 
 const TaskForm = ({
   initialValues,
@@ -12,7 +12,7 @@ const TaskForm = ({
   onSubmit,
   projects,
   onCancel,
-  submitLabel = "Создать задачу",
+  submitLabel = "Create Task",
 }: TaskFormComponentProps) => {
   return (
     <Formik
@@ -21,28 +21,28 @@ const TaskForm = ({
       onSubmit={onSubmit}
       enableReinitialize
     >
-      <Form className="Form">
-        <div className="form-group">
-          <Field name="title" type="text" placeholder="Название задачи" />
-          <ErrorMessage name="title" component="div" className="error-msg" />
+      <Form className={styles.Form}>
+        <div className={styles.formGroup}>
+          <Field name="title" type="text" placeholder="Task Title" />
+          <ErrorMessage name="title" component="div" className={styles.errorMsg} />
         </div>
 
-        <div className="form-group">
-          <Field name="description" as="textarea" placeholder="Описание" />
+        <div className={styles.formGroup}>
+          <Field name="description" as="textarea" placeholder="Description" />
           <ErrorMessage
             name="description"
             component="div"
-            className="error-msg"
+            className={styles.errorMsg}
           />
         </div>
 
-        <div className="form-group">
-          <Field name="assignee" type="text" placeholder="Исполнитель" />
-          <ErrorMessage name="assignee" component="div" className="error-msg" />
+        <div className={styles.formGroup}>
+          <Field name="assignee" type="text" placeholder="Assignee" />
+          <ErrorMessage name="assignee" component="div" className={styles.errorMsg} />
         </div>
 
-        <div className="form-group">
-          <label>Приоритет</label>
+        <div className={styles.formGroup}>
+          <label>Priority</label>
           <Field name="priority" as="select">
             {Object.entries(TASKS_PRIORITIES).map(([key, priority]) => (
               <option key={key} value={key}>
@@ -52,8 +52,8 @@ const TaskForm = ({
           </Field>
         </div>
 
-        <div className="form-group">
-          <label>Статус</label>
+        <div className={styles.formGroup}>
+          <label>Status</label>
           <Field name="status" as="select">
             {Object.entries(TASK_STATUS).map(([key, status]) => (
               <option key={key} value={key?.toLowerCase()}>
@@ -63,10 +63,10 @@ const TaskForm = ({
           </Field>
         </div>
 
-        <div className="form-group">
-          <label>Проект</label>
+        <div className={styles.formGroup}>
+          <label>Project</label>
           <Field name="projectId" as="select">
-            <option value="">Выберите проект…</option>
+            <option value="">Select project...</option>
             {projects.map((project) => (
               <option key={project.id} value={project.id}>
                 {project.title}
@@ -76,16 +76,16 @@ const TaskForm = ({
           <ErrorMessage
             name="projectId"
             component="div"
-            className="error-msg"
+            className={styles.errorMsg}
           />
         </div>
 
-        <div>
-          <button className="SaveBtn" type="submit">
+        <div className={styles.actions}>
+          <button className={styles.submitBtn} type="submit">
             {submitLabel}
           </button>
-          <button className="SaveBtn" type="button" onClick={onCancel}>
-            Назад
+          <button className={styles.cancelBtn} type="button" onClick={onCancel}>
+            Back
           </button>
         </div>
       </Form>

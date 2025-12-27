@@ -1,0 +1,89 @@
+$primary-color: #4a90e2;
+$secondary-color: #6c757d;
+$background-color: #f5f7fa;
+$card-bg: #ffffff;
+$text-color: #333333;
+$border-radius: 12px;
+$box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+.newTaskPage {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 80px);
+  padding: 40px 20px;
+  background-color: $background-color;
+
+  .container {
+    width: 100%;
+    max-width: 600px;
+    background-color: $card-bg;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    padding: 40px;
+    animation: fadeIn 0.3s ease-in-out;
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+
+      .titleRow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 24px;
+        color: $text-color;
+        font-weight: 600;
+        line-height: 1.3;
+
+        span {
+          display: block;
+          font-weight: 400;
+          color: $secondary-color;
+          font-size: 0.75em;
+          margin-top: 4px;
+        }
+      }
+
+      .backBtn {
+        padding: 8px 16px;
+        background-color: transparent;
+        color: $secondary-color;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s;
+        align-self: flex-start;
+
+        &:hover {
+          background-color: #f0f0f0;
+          color: $text-color;
+          border-color: #ccc;
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

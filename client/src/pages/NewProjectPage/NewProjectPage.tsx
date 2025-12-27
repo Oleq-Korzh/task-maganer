@@ -7,7 +7,7 @@ import { ProjectValidationSchema } from "@schemes/projects/projects.schema";
 import { saveProjectAsync } from "@store/features/projects";
 import { useAppDispatch } from "@store/hooks";
 
-import "./NewProjectPage.scss";
+import styles from "./NewProjectPage.module.scss";
 
 const NewProjectPage = () => {
   const navigate = useNavigate();
@@ -40,14 +40,16 @@ const NewProjectPage = () => {
   };
 
   return (
-    <div className="NewProjectPage">
-      <div onClick={handleGoToBack}>Вернуться назад</div>
+    <div className={styles.NewProjectPage}>
+      <div className={styles.backButton} onClick={handleGoToBack}>
+        Go Back
+      </div>
       <h1>Add new Project</h1>
       <ProjectForm
         initialValues={projectFormInitialValues}
         validationSchema={ProjectValidationSchema}
         onSubmit={handleSubmit}
-        submitLabel="Создать проект"
+        submitLabel="Create Project"
       />
     </div>
   );
