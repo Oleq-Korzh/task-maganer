@@ -16,7 +16,12 @@ const AuthPage = () => {
   };
 
   const handleSubmit = ({ username, password }: LoginCredentials) => {
-    dispatch(loginAsync({ username, password }));
+    const trimmedValues = {
+      username: username.trim(),
+      password: password.trim(),
+    };
+
+    dispatch(loginAsync(trimmedValues));
   };
 
   return (
