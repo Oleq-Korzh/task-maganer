@@ -2,15 +2,10 @@ import { API_ROUTES } from "@api/apiRoutes";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-import {
-  NewProjectPayload,
-  Project,
-  ProjectsState,
-} from "./types/projects.types";
+import { projectsAdapter } from "./projects.adapter";
+import { NewProjectPayload, Project, ProjectsState } from "./projects.types";
 
-const initialState: ProjectsState = {
-  data: [],
-};
+const initialState: ProjectsState = projectsAdapter.getInitialState();
 
 export const getProjectsAsync = createAsyncThunk<Project[]>(
   "projects/getList",
@@ -65,16 +60,16 @@ const projectsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getProjectsAsync.fulfilled, (state, action) => {
-      state.data = action.payload;
+      projectsAdapter.setAll(state, action.payload);
     });
 
     builder.addCase(getProjectsAsync.rejected, (state, action) => {
-      state.data = [];
+      projectsAdapter.setAll(state, []);
       console.error(`Projects error: ${action?.error?.message}`);
     });
 
     builder.addCase(deleteProjectAsync.fulfilled, (state, action) => {
-      state.data = action.payload;
+      projectsAdapter.setAll(state, action.payload);
     });
 
     builder.addCase(deleteProjectAsync.rejected, (_, action) => {
@@ -82,7 +77,7 @@ const projectsSlice = createSlice({
     });
 
     builder.addCase(saveProjectAsync.fulfilled, (state, action) => {
-      state.data.push(action.payload);
+      projectsAdapter.addOne(state, action.payload);
     });
 
     builder.addCase(saveProjectAsync.rejected, (_, action) => {
@@ -90,7 +85,7 @@ const projectsSlice = createSlice({
     });
 
     builder.addCase(editProjectAsync.fulfilled, (state, action) => {
-      state.data = action.payload;
+      projectsAdapter.setAll(state, action.payload);
     });
 
     builder.addCase(editProjectAsync.rejected, (_, action) => {

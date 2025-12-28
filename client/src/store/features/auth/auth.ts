@@ -7,7 +7,7 @@ import {
   AuthResponse,
   AuthState,
   LoginCredentials,
-} from "./types/auth.types";
+} from "./auth.types";
 
 const initialState: AuthState = {
   isAuth: false,

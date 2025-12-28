@@ -1,3 +1,5 @@
+import { EntityState } from "@reduxjs/toolkit";
+
 export interface Project {
   id: string;
   title: string;
@@ -7,6 +9,4 @@ export interface Project {
 
 export type NewProjectPayload = Omit<Project, "id">;
 
-export interface ProjectsState {
-  data: Project[];
-}
+export type ProjectsState = EntityState<Project, string>;

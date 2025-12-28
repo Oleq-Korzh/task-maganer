@@ -1,4 +1,4 @@
-import { LoginCredentials } from "@store/features/types/auth.types";
+import { LoginCredentials } from "@store/features/auth/auth.types";
 import * as Yup from "yup";
 
 export interface LoginFormProps {

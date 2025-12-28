@@ -4,11 +4,10 @@ import { TaskProps } from "@models/task.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-import { TasksState } from "./types/tasks.types";
+import { tasksAdapter } from "./tasks.adapter";
+import { TasksInitialState } from "./tasks.types";
 
-const initialState: TasksState = {
-  data: [],
-};
+const initialState: TasksInitialState = tasksAdapter.getInitialState();
 
 export const getTasksAsync = createAsyncThunk<TaskProps[], IdType | undefined>(
   "tasks/getList",
@@ -65,16 +64,16 @@ const tasksSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getTasksAsync.fulfilled, (state, action) => {
-      state.data = action.payload;
+      tasksAdapter.setAll(state, action.payload);
     });
 
     builder.addCase(getTasksAsync.rejected, (state, action) => {
-      state.data = [];
+      tasksAdapter.setAll(state, []);
       console.error(action?.error?.message);
     });
 
     builder.addCase(deleteTaskAsync.fulfilled, (state, action) => {
-      state.data = action.payload;
+      tasksAdapter.setAll(state, action.payload);
     });
 
     builder.addCase(deleteTaskAsync.rejected, (_, action) => {
@@ -82,7 +81,7 @@ const tasksSlice = createSlice({
     });
 
     builder.addCase(editTaskAsync.fulfilled, (state, action) => {
-      state.data = action.payload;
+      tasksAdapter.setAll(state, action.payload);
     });
 
     builder.addCase(editTaskAsync.rejected, (_, action) => {
@@ -90,7 +89,7 @@ const tasksSlice = createSlice({
     });
 
     builder.addCase(saveTaskAsync.fulfilled, (state, action) => {
-      state.data.push(action.payload);
+      tasksAdapter.addOne(state, action.payload);
     });
 
     builder.addCase(saveTaskAsync.rejected, (_, action) => {

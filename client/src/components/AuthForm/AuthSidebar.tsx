@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router";
 import { APP_ROUTES } from "@router/routes";
-
-import { logoutAsync } from "../../store/features/auth";
-import { useAppDispatch } from "../../store/hooks";
+import { logoutAsync } from "@store/features/auth/auth";
+import { useAppDispatch } from "@store/hooks";
 
 import { AuthSidebarProps } from "./AuthSidebar.types";
 

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import Snowfall from "react-snowfall";
 import { USER_ROLES } from "@constants/userRoles";
 import { capitalizeFirstLetter } from "@helpers/dom";
-import { getUsersAsync } from "@store/features/users";
+import { getUsersAsync } from "@store/features/users/users";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 
 import "./UsersPage.scss";

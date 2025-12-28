@@ -4,12 +4,16 @@ import { DEFAULT_PROJECT_PRIORITY } from "@constants/projectPriorities";
 import { ProjectFormTypes } from "@models/project.types";
 import { APP_ROUTES } from "@router/routes";
 import { ProjectValidationSchema } from "@schemes/projects/projects.schema";
+import {
+  selectAllProjects,
+  selectProjectById,
+} from "@store/features/projects/projects.selector";
 
 import ProjectForm from "../../components/ProjectForm/ProjectForm";
 import {
   editProjectAsync,
   getProjectsAsync,
-} from "../../store/features/projects";
+} from "../../store/features/projects/projects";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 import styles from "./EditProject.module.scss";
@@ -19,9 +23,10 @@ const EditProject = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams<"id">();
 
-  const { data: projects } = useAppSelector((state) => state.projects);
-
-  const currentProject = projects.find((p) => p.id === id);
+  const projects = useAppSelector(selectAllProjects);
+  const currentProject = useAppSelector((state) =>
+    id ? selectProjectById(state, id) : undefined
+  );
 
   useEffect(() => {
     if (!projects.length) {

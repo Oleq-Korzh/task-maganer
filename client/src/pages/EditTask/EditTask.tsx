@@ -6,8 +6,10 @@ import { DEFAULT_TASK_STATUS } from "@constants/taskStatus";
 import { TaskFormProps } from "@models/task.types";
 import { APP_ROUTES } from "@router/routes";
 import { taskValidationSchema } from "@schemes/tasks/tasks.scheme";
-import { getProjectsAsync } from "@store/features/projects";
-import { editTaskAsync, getTasksAsync } from "@store/features/tasks";
+import { getProjectsAsync } from "@store/features/projects/projects";
+import { selectAllProjects } from "@store/features/projects/projects.selector";
+import { editTaskAsync, getTasksAsync } from "@store/features/tasks/tasks";
+import { selectTaskById } from "@store/features/tasks/tasks.selector";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 
 import styles from "./EditTask.module.scss";
@@ -16,9 +18,10 @@ const EditTask = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams<"id">();
-  const { data: projects } = useAppSelector((state) => state.projects);
-  const { data: tasks } = useAppSelector((state) => state.tasks);
-  const currentTask = tasks.find((task) => task.id === id);
+  const projects = useAppSelector(selectAllProjects);
+  const currentTask = useAppSelector((state) =>
+    id ? selectTaskById(state, id) : undefined
+  );
 
   const initialValues: TaskFormProps = {
     title: currentTask?.title || "",
@@ -55,8 +58,7 @@ const EditTask = () => {
   return (
     <div className={styles.EditTask}>
       <h2>
-        Edit Task{" "}
-        {currentTask?.title && <span>{currentTask?.title}</span>}
+        Edit Task {currentTask?.title && <span>{currentTask?.title}</span>}
       </h2>
 
       <TaskForm

@@ -10,19 +10,25 @@ import { IdType } from "@models/id.types";
 import { TaskProps, TasksColumnsProps } from "@models/task.types";
 import { TaskStatusProps } from "@models/task.types";
 import { APP_ROUTES } from "@router/routes";
-import { getProjectsAsync } from "@store/features/projects";
-import { getTasksAsync } from "@store/features/tasks";
-import { editTaskAsync } from "@store/features/tasks";
+import { getProjectsAsync } from "@store/features/projects/projects";
+import {
+  selectAllProjects,
+  selectProjectById,
+} from "@store/features/projects/projects.selector";
+import { editTaskAsync, getTasksAsync } from "@store/features/tasks/tasks";
+import { selectAllTasks } from "@store/features/tasks/tasks.selector";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 
 import styles from "./TasksPage.module.scss";
 
 const TasksPage = () => {
   const [filterDate, setFilterDate] = useState("NEW");
-  const { data: tasks } = useAppSelector((store) => store.tasks);
-  const { data: projects } = useAppSelector((store) => store.projects);
+  const tasks = useAppSelector(selectAllTasks);
+  const projects = useAppSelector(selectAllProjects);
   const { projectId } = useParams<"projectId">();
-  const findProject = projects.find((project) => project.id === projectId);
+  const findProject = useAppSelector((state) =>
+    projectId ? selectProjectById(state, projectId) : undefined
+  );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

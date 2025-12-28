@@ -1,7 +1,7 @@
 import LoginForm from "@components/LoginForm/LoginForm";
 import { userValidationSchema } from "@schemes/user/user.scheme";
-import { loginAsync } from "@store/features/auth";
-import { LoginCredentials } from "@store/features/types/auth.types";
+import { loginAsync } from "@store/features/auth/auth";
+import { LoginCredentials } from "@store/features/auth/auth.types";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 
 import styles from "./AuthPage.module.scss";
