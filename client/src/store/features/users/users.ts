@@ -2,7 +2,7 @@ import { API_ROUTES } from "@api/apiRoutes";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-import { UserInitialStateProps } from "./types/user.types";
+import { UserInitialStateProps } from "./user.types";
 
 const initialState: UserInitialStateProps = {
   data: [],

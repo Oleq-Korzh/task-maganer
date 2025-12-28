@@ -4,7 +4,8 @@ import { useNavigate } from "react-router";
 import Snowfall from "react-snowfall";
 import ProjectCard from "@components/ProjectCard/ProjectCard";
 import { APP_ROUTES } from "@router/routes";
-import { getProjectsAsync } from "@store/features/projects";
+import { getProjectsAsync } from "@store/features/projects/projects";
+import { selectAllProjects } from "@store/features/projects/projects.selector";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 
 import styles from "./ProjectsPage.module.scss";
@@ -12,7 +13,7 @@ import styles from "./ProjectsPage.module.scss";
 const ProjectsPage = () => {
   const [search, setSearch] = useState<string>("");
   const [priorityFilter, setPriorityFilter] = useState<string>("ALL");
-  const { data: projects } = useAppSelector((state) => state.projects);
+  const projects = useAppSelector(selectAllProjects);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

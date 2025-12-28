@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { resetError } from "@store/features/auth";
-import { LoginCredentials } from "@store/features/types/auth.types";
+import { resetError } from "@store/features/auth/auth";
+import { LoginCredentials } from "@store/features/auth/auth.types";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { useFormikContext } from "formik";
 

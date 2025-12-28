@@ -6,8 +6,12 @@ import { DEFAULT_TASK_STATUS } from "@constants/taskStatus";
 import { TaskFormProps } from "@models/task.types";
 import { APP_ROUTES } from "@router/routes";
 import { taskValidationSchema } from "@schemes/tasks/tasks.scheme";
-import { getProjectsAsync } from "@store/features/projects";
-import { saveTaskAsync } from "@store/features/tasks";
+import { getProjectsAsync } from "@store/features/projects/projects";
+import {
+  selectAllProjects,
+  selectProjectById,
+} from "@store/features/projects/projects.selector";
+import { saveTaskAsync } from "@store/features/tasks/tasks";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 
 import styles from "./NewTaskPage.module.scss";
@@ -17,8 +21,10 @@ const NewTaskPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { data: projects } = useAppSelector((state) => state.projects);
-  const currentProject = projects.find((project) => project.id === projectId);
+  const projects = useAppSelector(selectAllProjects);
+  const currentProject = useAppSelector((state) =>
+    projectId ? selectProjectById(state, projectId) : undefined
+  );
 
   const initialValues: TaskFormProps = {
     title: "",
@@ -60,7 +66,6 @@ const NewTaskPage = () => {
     <div className={styles.newTaskPage}>
       <div className={styles.container}>
         <div className={styles.header}>
-         
           <h2>
             Add Task
             {currentProject && <span>for project {currentProject?.title}</span>}

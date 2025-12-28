@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { APP_ROUTES } from "@router/routes";
 
-import { deleteProjectAsync } from "../../store/features/projects";
+import { deleteProjectAsync } from "../../store/features/projects/projects";
 import { useAppDispatch } from "../../store/hooks";
 import PriorityLabel from "../PriorityLabel/PriorityLabel";
 

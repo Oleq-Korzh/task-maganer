@@ -4,7 +4,7 @@ import { DEFAULT_PROJECT_PRIORITY } from "@constants/projectPriorities";
 import { ProjectFormTypes } from "@models/project.types";
 import { APP_ROUTES } from "@router/routes";
 import { ProjectValidationSchema } from "@schemes/projects/projects.schema";
-import { saveProjectAsync } from "@store/features/projects";
+import { saveProjectAsync } from "@store/features/projects/projects";
 import { useAppDispatch } from "@store/hooks";
 
 import styles from "./NewProjectPage.module.scss";

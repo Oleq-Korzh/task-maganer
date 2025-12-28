@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { capitalizeFirstLetter } from "@helpers/dom";
 import { APP_ROUTES } from "@router/routes";
 
-import { deleteTaskAsync } from "../../store/features/tasks";
+import { deleteTaskAsync } from "../../store/features/tasks/tasks";
 import { useAppDispatch } from "../../store/hooks";
 import PriorityLabel from "../PriorityLabel/PriorityLabel";
 
