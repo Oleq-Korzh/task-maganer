@@ -1,11 +1,11 @@
 import { useEffect, useMemo } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import Snowfall from "react-snowfall";
 import ProjectCard from "@components/ProjectCard/ProjectCard";
 import { APP_ROUTES } from "@router/routes";
 import { getProjectsAsync } from "@store/features/projects";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import Snowfall from "react-snowfall";
 
 import styles from "./ProjectsPage.module.scss";
 
@@ -40,11 +40,9 @@ const ProjectsPage = () => {
 
   return (
     <div className={styles.projectsPage}>
-      <Snowfall
-        color="lightblue"
-        snowflakeCount={200} />
+      <h1 className={styles.title}>Projects</h1>
+      <Snowfall color="lightblue" snowflakeCount={200} />
       <div className={styles.filtersBar}>
-
         <input
           type="text"
           value={search}

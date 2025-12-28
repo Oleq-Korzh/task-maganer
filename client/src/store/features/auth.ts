@@ -1,8 +1,13 @@
 import { API_ROUTES } from "@api/apiRoutes";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
-import { AuthResponse, AuthState, LoginCredentials } from "./types/auth.types";
+import {
+  AuthError,
+  AuthResponse,
+  AuthState,
+  LoginCredentials,
+} from "./types/auth.types";
 
 const initialState: AuthState = {
   isAuth: false,
@@ -14,14 +19,21 @@ const initialState: AuthState = {
   loaded: false,
 };
 
-export const loginAsync = createAsyncThunk<AuthResponse, LoginCredentials>(
-  "auth/login",
-  async (cred) => {
+export const loginAsync = createAsyncThunk<
+  AuthResponse,
+  LoginCredentials,
+  { rejectValue: string }
+>("auth/login", async (cred, { rejectWithValue }) => {
+  try {
     const res = await axios.post(API_ROUTES?.USER?.LOGIN_URL, cred);
 
     return res.data;
+  } catch (err) {
+    const error = err as AxiosError<AuthError>;
+
+    return rejectWithValue(error.response?.data?.error || "Login failed");
   }
-);
+});
 
 export const checkAuthAsync = createAsyncThunk<AuthResponse>(
   "auth/check",
@@ -51,7 +63,11 @@ export const logoutAsync = createAsyncThunk<AuthResponse>(
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    resetError: (state) => {
+      state.error = "";
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(loginAsync.fulfilled, (state, action) => {
       state.isAuth = action.payload.isAuth;
@@ -60,6 +76,8 @@ const authSlice = createSlice({
       state.loaded = true;
     });
     builder.addCase(loginAsync.rejected, (state, action) => {
+      console.log(action);
+
       state.error = action.payload as string;
       state.loaded = true;
     });
@@ -80,4 +98,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { resetError } = authSlice.actions;
 export default authSlice.reducer;

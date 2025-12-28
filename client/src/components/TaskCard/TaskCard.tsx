@@ -56,7 +56,9 @@ export default function TaskCard({
 
       <PriorityLabel priority={priority} />
       <p className={styles.description}>{description.slice(0, 100)}</p>
-      <div className={styles.status}>Status: {capitalizeFirstLetter(status)}</div>
+      <div className={`${styles.status} ${styles[`status--${status}`]}`}>
+        Status: {capitalizeFirstLetter(status)}
+      </div>
     </div>
   );
 }

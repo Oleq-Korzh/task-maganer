@@ -110,12 +110,32 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     gap: 0.5rem;
 
     &::before {
-      content: '';
+      content: "";
       display: block;
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background-color: $primary-color;
+    }
+
+    &--todo::before {
+      background-color: #94a3b8; // gray
+    }
+
+    &--in-progress::before {
+      background-color: #3b82f6; // blue
+    }
+
+    &--blocked::before {
+      background-color: #ef4444; // red
+    }
+
+    &--testing::before {
+      background-color: #f59e0b; // orange
+    }
+
+    &--done::before {
+      background-color: #22c55e; // green
     }
   }
 }
