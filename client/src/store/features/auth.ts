@@ -1,7 +1,13 @@
 import { API_ROUTES } from "@api/apiRoutes";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios, { AxiosError } from "axios";
 
-import { AuthResponse, AuthState, LoginCredentials } from "./types/auth.types";
+import {
+  AuthError,
+  AuthResponse,
+  AuthState,
+  LoginCredentials,
+} from "./types/auth.types";
 
 const initialState: AuthState = {
   isAuth: false,
@@ -19,67 +25,49 @@ export const loginAsync = createAsyncThunk<
   { rejectValue: string }
 >("auth/login", async (cred, { rejectWithValue }) => {
   try {
-    const res = await fetch(API_ROUTES?.USER?.LOGIN_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(cred),
-    });
+    const res = await axios.post(API_ROUTES?.USER?.LOGIN_URL, cred);
 
-    const data = await res.json();
+    return res.data;
+  } catch (err) {
+    const error = err as AxiosError<AuthError>;
 
-    if (!res.ok) {
-      return rejectWithValue(data.error);
-    }
-
-    return data;
-  } catch (error) {
-    console.log(error);
-    return rejectWithValue(error as string);
+    return rejectWithValue(error.response?.data?.error || "Login failed");
   }
 });
 
 export const checkAuthAsync = createAsyncThunk<AuthResponse>(
   "auth/check",
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await fetch(API_ROUTES?.USER?.LOGIN_CHECK_URL);
-      const data = await res.json();
+  async () => {
+    const res = await axios.get(API_ROUTES?.USER?.LOGIN_CHECK_URL);
 
-      return data;
-    } catch (error) {
-      console.log(error);
-      return rejectWithValue(error);
-    }
+    return res.data;
   }
 );
 
 export const logoutAsync = createAsyncThunk<AuthResponse>(
   "auth/logout",
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await fetch(API_ROUTES?.USER?.LOGOUT_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  async () => {
+    const res = await fetch(API_ROUTES?.USER?.LOGOUT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      return data;
-    } catch (error) {
-      console.log(error);
-      return rejectWithValue("error");
-    }
+    return data;
   }
 );
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    resetError: (state) => {
+      state.error = "";
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(loginAsync.fulfilled, (state, action) => {
       state.isAuth = action.payload.isAuth;
@@ -88,6 +76,8 @@ const authSlice = createSlice({
       state.loaded = true;
     });
     builder.addCase(loginAsync.rejected, (state, action) => {
+      console.log(action);
+
       state.error = action.payload as string;
       state.loaded = true;
     });
@@ -108,4 +98,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { resetError } = authSlice.actions;
 export default authSlice.reducer;

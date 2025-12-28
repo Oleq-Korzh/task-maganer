@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router";
+import Snowfall from "react-snowfall";
 import TaskCard from "@components/TaskCard/TaskCard";
 import { TASK_STATUS } from "@constants/taskStatus";
 import { capitalizeFirstLetter } from "@helpers/dom";
@@ -11,8 +12,6 @@ import { TaskStatusProps } from "@models/task.types";
 import { APP_ROUTES } from "@router/routes";
 import { getTasksAsync } from "@store/features/tasks";
 import { editTaskAsync } from "@store/features/tasks";
-import Snowfall from "react-snowfall";
-
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 
 import styles from "./TasksPage.module.scss";
@@ -98,9 +97,8 @@ const TasksPage = () => {
 
   return (
     <div className={styles.TasksPage}>
-      <Snowfall
-              color="lightblue"
-              snowflakeCount={200} />
+      <h1 className={styles.title}>Tasks</h1>
+      <Snowfall color="lightblue" snowflakeCount={200} />
       <div className={styles.BackBtn} onClick={handleBackPage}>
         All Projects
       </div>

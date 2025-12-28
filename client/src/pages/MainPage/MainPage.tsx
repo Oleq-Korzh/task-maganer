@@ -1,5 +1,6 @@
-import styles from "./MainPage.module.scss";
 import Snowfall from "react-snowfall";
+
+import styles from "./MainPage.module.scss";
 
 const MainPage = () => {
 

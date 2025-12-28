@@ -1,47 +1,34 @@
-import { useState } from "react";
+import LoginForm from "@components/LoginForm/LoginForm";
+import { userValidationSchema } from "@schemes/user/user.scheme";
 import { loginAsync } from "@store/features/auth";
+import { LoginCredentials } from "@store/features/types/auth.types";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 
 import styles from "./AuthPage.module.scss";
 
 const AuthPage = () => {
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const { error } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const { error } = useAppSelector((store) => store?.auth);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const initialValues: LoginCredentials = {
+    username: "",
+    password: "",
+  };
 
-    if (username.trim() !== "" && password.trim() !== "") {
-      dispatch(loginAsync({ username, password }));
-      setUsername("");
-      setPassword("");
-    }
+  const handleSubmit = ({ username, password }: LoginCredentials) => {
+    dispatch(loginAsync({ username, password }));
   };
 
   return (
     <div className={styles.AuthPage}>
       <div className={styles.card}>
         <h2>Welcome Back</h2>
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button type="submit">Login</button>
-        </form>
-        {error && <div className={styles.error}>{error}</div>}
+        <LoginForm
+          error={error}
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          schema={userValidationSchema}
+        />
       </div>
     </div>
   );
