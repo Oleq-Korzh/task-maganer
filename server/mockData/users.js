@@ -14,7 +14,7 @@ export const usersMock = [
     username: "admin1",
     password: "admin1",
     role: "admin",
-    projects: ["1", "2"],
+    projects: ["1", "2", "3"],
     avatarUrl: "https://i.pravatar.cc/150?img=2",
   },
   {

@@ -5,6 +5,50 @@
     margin-bottom: 24px;
   }
 
+  &__filter {
+    margin-bottom: 20px;
+    max-width: 240px;
+    position: relative;
+  }
+
+  &__select {
+    width: 100%;
+    padding: 10px 40px 10px 14px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background-color: #fff;
+    color: #111827;
+    cursor: pointer;
+
+    appearance: none; // убираем стандартную стрелку
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      border-color: #cbd5f5;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+  }
+
+  &__filter::after {
+    content: "▾";
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 14px;
+    color: #6b7280;
+  }
+
   &__loader {
     padding: 40px;
     text-align: center;

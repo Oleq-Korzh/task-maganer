@@ -10,6 +10,7 @@ import { IdType } from "@models/id.types";
 import { TaskProps, TasksColumnsProps } from "@models/task.types";
 import { TaskStatusProps } from "@models/task.types";
 import { APP_ROUTES } from "@router/routes";
+import { getProjectsAsync } from "@store/features/projects";
 import { getTasksAsync } from "@store/features/tasks";
 import { editTaskAsync } from "@store/features/tasks";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
@@ -18,14 +19,24 @@ import styles from "./TasksPage.module.scss";
 
 const TasksPage = () => {
   const [filterDate, setFilterDate] = useState("NEW");
-  const { data: tasks } = useAppSelector((state) => state.tasks);
+  const { data: tasks } = useAppSelector((store) => store.tasks);
+  const { data: projects } = useAppSelector((store) => store.projects);
   const { projectId } = useParams<"projectId">();
+  const findProject = projects.find((project) => project.id === projectId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getTasksAsync(projectId));
   }, [dispatch, projectId]);
+
+  useEffect(() => {
+    if (projects.length) {
+      return;
+    }
+
+    dispatch(getProjectsAsync());
+  }, [dispatch, projects.length]);
 
   const handleBackPage = () => {
     navigate(APP_ROUTES.PROJECTS_URL);
@@ -97,7 +108,15 @@ const TasksPage = () => {
 
   return (
     <div className={styles.TasksPage}>
-      <h1 className={styles.title}>Tasks</h1>
+      {!findProject && <h1 className={styles.title}>Tasks</h1>}
+      {findProject && (
+        <>
+          <h1 className={styles.title}>
+            Tasks for project: {findProject.title}
+          </h1>
+          <div>Descrition: {findProject.description}</div>
+        </>
+      )}
       <Snowfall color="lightblue" snowflakeCount={200} />
       <div className={styles.BackBtn} onClick={handleBackPage}>
         All Projects
