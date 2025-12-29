@@ -1,3 +1,4 @@
+import RegisterPage from "@pages/RegisterPage/RegisterPage";
 import UsersPage from "@pages/UsersPage/UsersPage";
 
 import AuthPage from "../pages/AuthPage/AuthPage";
@@ -76,6 +77,12 @@ export const menuItems: AppRouteProps[] = [
     path: APP_ROUTES.AUTH,
     title: "Auth",
     Component: AuthPage,
+    public: true,
+  },
+  {
+    path: APP_ROUTES.REGISTER,
+    title: "Register",
+    Component: RegisterPage,
     public: true,
   },
 ];
