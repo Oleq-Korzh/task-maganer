@@ -5,7 +5,6 @@ export const usersMock = [
     username: "admin",
     password: "admin",
     role: "admin",
-    projects: ["1", "2", "3"],
     avatarUrl: "https://i.pravatar.cc/150?img=1",
   },
   {
@@ -14,7 +13,6 @@ export const usersMock = [
     username: "admin1",
     password: "admin1",
     role: "admin",
-    projects: ["1", "2", "3"],
     avatarUrl: "https://i.pravatar.cc/150?img=2",
   },
   {
@@ -23,7 +21,6 @@ export const usersMock = [
     username: "alice",
     password: "1234",
     role: "developer",
-    projects: ["1"],
     avatarUrl: "https://i.pravatar.cc/150?img=3",
   },
   {
@@ -32,7 +29,6 @@ export const usersMock = [
     username: "priya",
     password: "1234",
     role: "qa",
-    projects: ["1", "2"],
     avatarUrl: "https://i.pravatar.cc/150?img=4",
   },
   {
@@ -41,7 +37,6 @@ export const usersMock = [
     username: "tom",
     password: "1234",
     role: "developer",
-    projects: ["3"],
     avatarUrl: "https://i.pravatar.cc/150?img=5",
   },
   {
@@ -50,7 +45,6 @@ export const usersMock = [
     username: "john",
     password: "1234",
     role: "manager",
-    projects: ["1", "2", "3"],
     avatarUrl: "https://i.pravatar.cc/150?img=6",
   },
   {
@@ -59,7 +53,6 @@ export const usersMock = [
     username: "emma",
     password: "1234",
     role: "developer",
-    projects: ["2"],
     avatarUrl: "https://i.pravatar.cc/150?img=7",
   },
   {
@@ -68,7 +61,6 @@ export const usersMock = [
     username: "michael",
     password: "1234",
     role: "qa",
-    projects: ["3"],
     avatarUrl: "https://i.pravatar.cc/150?img=8",
   },
   {
@@ -77,7 +69,6 @@ export const usersMock = [
     username: "sophia",
     password: "1234",
     role: "designer",
-    projects: ["1"],
     avatarUrl: "https://i.pravatar.cc/150?img=9",
   },
   {
@@ -86,7 +77,6 @@ export const usersMock = [
     username: "daniel",
     password: "1234",
     role: "developer",
-    projects: ["2", "3"],
     avatarUrl: "https://i.pravatar.cc/150?img=10",
   },
   {
@@ -95,7 +85,6 @@ export const usersMock = [
     username: "olivia",
     password: "1234",
     role: "manager",
-    projects: ["2"],
     avatarUrl: "https://i.pravatar.cc/150?img=11",
   },
   {
@@ -104,7 +93,6 @@ export const usersMock = [
     username: "ethan",
     password: "1234",
     role: "developer",
-    projects: [],
     avatarUrl: "https://i.pravatar.cc/150?img=12",
   },
 ];

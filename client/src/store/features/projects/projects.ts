@@ -1,34 +1,38 @@
 import { API_ROUTES } from "@api/apiRoutes";
+import { ProjectTypes } from "@models/project.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 import { projectsAdapter } from "./projects.adapter";
-import { NewProjectPayload, Project, ProjectsState } from "./projects.types";
+import { NewProjectPayload, ProjectsState } from "./projects.types";
 
 const initialState: ProjectsState = projectsAdapter.getInitialState();
 
-export const getProjectsAsync = createAsyncThunk<Project[]>(
+export const getProjectsAsync = createAsyncThunk<ProjectTypes[]>(
   "projects/getList",
   async () => {
-    const result = await axios.get<Project[]>(API_ROUTES.PROJECTS_URL);
+    const result = await axios.get<ProjectTypes[]>(API_ROUTES.PROJECTS_URL);
 
     return result.data;
   }
 );
 
-export const saveProjectAsync = createAsyncThunk<Project, NewProjectPayload>(
-  "projects/save",
-  async (payload) => {
-    const result = await axios.post<Project>(API_ROUTES?.PROJECTS_URL, payload);
+export const saveProjectAsync = createAsyncThunk<
+  ProjectTypes,
+  NewProjectPayload
+>("projects/save", async (payload) => {
+  const result = await axios.post<ProjectTypes>(
+    API_ROUTES?.PROJECTS_URL,
+    payload
+  );
 
-    return result.data;
-  }
-);
+  return result.data;
+});
 
-export const deleteProjectAsync = createAsyncThunk<Project[], string>(
+export const deleteProjectAsync = createAsyncThunk<ProjectTypes[], string>(
   "projects/delete",
   async (id) => {
-    const result = await axios.delete<Project[]>(
+    const result = await axios.delete<ProjectTypes[]>(
       `${API_ROUTES?.PROJECTS_URL}/${id}`
     );
 
@@ -37,8 +41,8 @@ export const deleteProjectAsync = createAsyncThunk<Project[], string>(
 );
 
 export const editProjectAsync = createAsyncThunk<
-  Project[],
-  { id: string; payload: Partial<Project> }
+  ProjectTypes[],
+  { id: string; payload: Partial<ProjectTypes> }
 >("projects/edit", async ({ id, payload }, { rejectWithValue }) => {
   try {
     const result = await axios.put(
