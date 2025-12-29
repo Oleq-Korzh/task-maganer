@@ -9,7 +9,10 @@ export interface ProjectTypes {
   readonly creatorId: string;
 }
 
-export type ProjectFormTypes = Omit<ProjectTypes, "id">;
+export type ProjectFormTypes = Pick<
+  ProjectTypes,
+  "title" | "description" | "priority"
+>;
 
 export type ProjectPriotiryProps =
   (typeof PROJECT_PRIORITIES)[keyof typeof PROJECT_PRIORITIES];
