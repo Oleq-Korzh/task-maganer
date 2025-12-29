@@ -1,3 +1,4 @@
+import { IdType } from "@models/id.types";
 import { TaskPriotiryProps } from "@models/task.types";
 
 export interface ProjectCardProps {
@@ -5,5 +6,6 @@ export interface ProjectCardProps {
   title: string;
   description: string;
   priority: TaskPriotiryProps;
+  creatorId: IdType;
   onClick?: (id: string) => void;
 }

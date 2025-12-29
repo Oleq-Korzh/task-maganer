@@ -2,6 +2,7 @@ import { API_ROUTES } from "@api/apiRoutes";
 import { IdType } from "@models/id.types";
 import { TaskProps } from "@models/task.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "@store/store";
 import axios from "axios";
 
 import { tasksAdapter } from "./tasks.adapter";
@@ -22,8 +23,19 @@ export const getTasksAsync = createAsyncThunk<TaskProps[], IdType | undefined>(
 
 export const saveTaskAsync = createAsyncThunk<TaskProps, Partial<TaskProps>>(
   "tasks/save",
-  async (task) => {
-    const result = await axios.post<TaskProps>(API_ROUTES.TASKS_URL, task);
+  async (task, { getState }) => {
+    const currentState = getState() as RootState;
+    const userId = currentState?.auth?.user?.id;
+
+    const taskWithUser = {
+      ...task,
+      creatorId: userId,
+    };
+
+    const result = await axios.post<TaskProps>(
+      API_ROUTES.TASKS_URL,
+      taskWithUser
+    );
 
     return result.data;
   }

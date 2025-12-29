@@ -5,6 +5,7 @@ export const projectsMock = [
     description:
       "Core platform for managing projects, tasks, users and permissions.",
     priority: "HIGH",
+    creatorId: "u1",
     memberIds: ["u1", "u2", "u6", "u3", "u4"],
   },
   {
@@ -13,7 +14,8 @@ export const projectsMock = [
     description:
       "Set up CI pipelines, automated testing, and deployment workflows.",
     priority: "HIGH",
-    memberIds: ["u1", "u6", "u5", "u8"],
+    creatorId: "u6",
+    memberIds: ["u6", "u1", "u5", "u8"],
   },
   {
     id: "p3",
@@ -21,6 +23,7 @@ export const projectsMock = [
     description:
       "Redesign user interface and improve accessibility and UX patterns.",
     priority: "MEDIUM",
+    creatorId: "u2",
     memberIds: ["u2", "u9", "u7"],
   },
   {
@@ -29,6 +32,7 @@ export const projectsMock = [
     description:
       "Implement authentication, role-based access control and security audits.",
     priority: "HIGH",
+    creatorId: "u1",
     memberIds: ["u1", "u2", "u11"],
   },
   {
@@ -37,6 +41,7 @@ export const projectsMock = [
     description:
       "Optimize frontend performance, reduce bundle size and improve load times.",
     priority: "MEDIUM",
+    creatorId: "u6",
     memberIds: ["u6", "u10", "u3"],
   },
   {
@@ -45,13 +50,15 @@ export const projectsMock = [
     description:
       "Introduce automated tests, regression testing and QA workflows.",
     priority: "LOW",
-    memberIds: ["u4", "u8", "u11"],
+    creatorId: "u11",
+    memberIds: ["u11", "u4", "u8"],
   },
   {
     id: "p7",
     title: "Analytics & Reporting",
     description: "Build analytics dashboards and reporting tools for managers.",
     priority: "LOW",
+    creatorId: "u6",
     memberIds: ["u6", "u12"],
   },
 ];

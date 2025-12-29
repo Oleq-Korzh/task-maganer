@@ -1,4 +1,7 @@
+import { IdType } from "@models/id.types";
+
 export interface AuthUser {
+  id: IdType;
   name: string;
   role: string;
 }

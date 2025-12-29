@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router";
+import UserInfoSmall from "@components/UserInfoSmall/UserInfoSmall";
 import { APP_ROUTES } from "@router/routes";
+import { selectUserById } from "@store/features/users/users.selector";
 
 import { deleteProjectAsync } from "../../store/features/projects/projects";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import PriorityLabel from "../PriorityLabel/PriorityLabel";
 
 import { ProjectCardProps } from "./ProjectCard.types";
@@ -14,10 +16,16 @@ const ProjectCard = ({
   title,
   description,
   priority,
+  creatorId,
   onClick,
 }: ProjectCardProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const findUser = useAppSelector((state) =>
+    creatorId ? selectUserById(state, creatorId) : undefined
+  );
+
+  console.log();
 
   const handleClick = () => {
     if (!onClick) {
@@ -68,6 +76,14 @@ const ProjectCard = ({
 
       <PriorityLabel priority={priority} />
       <p className={styles.description}>{description}</p>
+      {findUser && (
+        <div>
+          <div>
+            <b>Creator:</b>
+          </div>
+          <UserInfoSmall {...findUser} />
+        </div>
+      )}
     </div>
   );
 };

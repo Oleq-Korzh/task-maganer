@@ -5,6 +5,8 @@ export interface ProjectTypes {
   title: string;
   description: string;
   priority: ProjectPriotiryProps;
+  membersIds: string[];
+  readonly creatorId: string;
 }
 
 export type ProjectFormTypes = Omit<ProjectTypes, "id">;

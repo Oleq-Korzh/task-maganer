@@ -12,6 +12,7 @@ import {
 const initialState: AuthState = {
   isAuth: false,
   user: {
+    id: "",
     name: "",
     role: "",
   },

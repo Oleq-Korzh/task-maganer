@@ -1,6 +1,7 @@
 import { API_ROUTES } from "@api/apiRoutes";
 import { ProjectTypes } from "@models/project.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "@store/store";
 import axios from "axios";
 
 import { projectsAdapter } from "./projects.adapter";
@@ -20,10 +21,19 @@ export const getProjectsAsync = createAsyncThunk<ProjectTypes[]>(
 export const saveProjectAsync = createAsyncThunk<
   ProjectTypes,
   NewProjectPayload
->("projects/save", async (payload) => {
+>("projects/save", async (payload, { getState }) => {
+  const currentState = getState() as RootState;
+  const userId = currentState?.auth?.user?.id;
+
+  const projectWithUser = {
+    ...payload,
+    creatorId: userId,
+    memberIds: [userId],
+  };
+
   const result = await axios.post<ProjectTypes>(
     API_ROUTES?.PROJECTS_URL,
-    payload
+    projectWithUser
   );
 
   return result.data;
