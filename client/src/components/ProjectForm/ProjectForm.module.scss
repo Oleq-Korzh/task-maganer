@@ -104,3 +104,32 @@ $transition: all 0.2s ease;
     }
   }
 }
+.multiSelect {
+  min-height: 160px;
+  padding: 8px !important;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 14px;
+  line-height: 1.4;
+
+  option {
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  option + option {
+    margin-top: 6px;
+  }
+
+  option:not(:disabled):checked {
+    background: #4f46e5;
+    color: #fff;
+  }
+
+  option:not(:checked):hover {
+    background: rgba(79, 70, 229, 0.1);
+  }
+}

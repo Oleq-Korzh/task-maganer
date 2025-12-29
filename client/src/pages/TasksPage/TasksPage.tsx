@@ -40,6 +40,7 @@ const TasksPage = () => {
       ? selectUserById(state, findProject?.creatorId)
       : undefined
   );
+  const currentUserId = String(useAppSelector((state) => state.auth.user?.id));
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -110,19 +111,23 @@ const TasksPage = () => {
   };
 
   const filteredTasks = useMemo<TaskProps[]>(() => {
-    const filtered = projectId
-      ? tasks.filter((task) => task.projectId === projectId)
-      : tasks;
+    const userTasks = tasks.filter((task) => {
+      const project = projects.find((p) => p.id === task.projectId);
 
-    return [...filtered].sort((a, b) => {
-      const dateA = new Date(a.createdAt);
-      const dateB = new Date(b.createdAt);
-
-      return filterDate === "OLD"
-        ? dateA.getTime() - dateB.getTime()
-        : dateB.getTime() - dateA.getTime();
+      return project?.memberIds.includes(currentUserId);
     });
-  }, [tasks, filterDate, projectId]);
+
+    const visibleTasks = projectId
+      ? userTasks.filter((task) => task.projectId === projectId)
+      : userTasks;
+
+    return [...visibleTasks].sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+
+      return filterDate === "OLD" ? dateA - dateB : dateB - dateA;
+    });
+  }, [tasks, projects, projectId, filterDate, currentUserId]);
 
   const emptyColumns: TasksColumnsProps = {
     [TASK_STATUS.TODO]: [],

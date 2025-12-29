@@ -24,8 +24,8 @@ const ProjectCard = ({
   const findUser = useAppSelector((state) =>
     creatorId ? selectUserById(state, creatorId) : undefined
   );
-
-  console.log();
+  const currentUserId = String(useAppSelector((state) => state.auth.user?.id));
+  const canEditProject = currentUserId === creatorId;
 
   const handleClick = () => {
     if (!onClick) {
@@ -55,23 +55,25 @@ const ProjectCard = ({
       <div className={styles.header}>
         <h3>{title}</h3>
 
-        <div className={styles.actions}>
-          <button
-            className={styles.edit}
-            aria-label="Edit project"
-            onClick={handleEdit}
-          >
-            ✎
-          </button>
+        {canEditProject && (
+          <div className={styles.actions}>
+            <button
+              className={styles.edit}
+              aria-label="Edit project"
+              onClick={handleEdit}
+            >
+              ✎
+            </button>
 
-          <button
-            className={styles.delete}
-            onClick={handleDelete}
-            aria-label="Delete project"
-          >
-            ✕
-          </button>
-        </div>
+            <button
+              className={styles.delete}
+              onClick={handleDelete}
+              aria-label="Delete project"
+            >
+              ✕
+            </button>
+          </div>
+        )}
       </div>
 
       <PriorityLabel priority={priority} />

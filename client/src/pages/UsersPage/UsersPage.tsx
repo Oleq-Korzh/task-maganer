@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import Snowfall from "react-snowfall";
+import UserCard from "@components/UserCard/UserCard";
 import { USER_ROLES } from "@constants/userRoles";
 import { capitalizeFirstLetter } from "@helpers/dom";
 import { selectAllUsers } from "@store/features/users/users.selector";
@@ -37,28 +38,7 @@ const UsersPage = () => {
       </div>
       <ul className="users-list">
         {filteredUsers.map((user) => (
-          <li key={user.id} className="users-list__item">
-            <img
-              src={user.avatarUrl}
-              alt={user.name}
-              className="users-list__avatar"
-            />
-
-            <div className="users-list__info">
-              <div className="users-list__name">{user.name}</div>
-              <div className="users-list__meta">
-                <span
-                  className={`users-list__role users-list__role--${user.role}`}
-                >
-                  {user.role}
-                </span>
-
-                <span className="users-list__projects">
-                  Projects: {user?.projects?.length || "—"}
-                </span>
-              </div>
-            </div>
-          </li>
+          <UserCard key={user.id} {...user} />
         ))}
       </ul>
     </div>

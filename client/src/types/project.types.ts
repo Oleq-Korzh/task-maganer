@@ -5,13 +5,13 @@ export interface ProjectTypes {
   title: string;
   description: string;
   priority: ProjectPriotiryProps;
-  membersIds: string[];
+  memberIds: string[];
   readonly creatorId: string;
 }
 
 export type ProjectFormTypes = Pick<
   ProjectTypes,
-  "title" | "description" | "priority"
+  "title" | "description" | "priority" | "memberIds"
 >;
 
 export type ProjectPriotiryProps =

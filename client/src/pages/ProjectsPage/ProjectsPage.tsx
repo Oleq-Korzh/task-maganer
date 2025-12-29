@@ -13,6 +13,7 @@ import styles from "./ProjectsPage.module.scss";
 const ProjectsPage = () => {
   const [search, setSearch] = useState<string>("");
   const [priorityFilter, setPriorityFilter] = useState<string>("ALL");
+  const currentUserId = useAppSelector((state) => state.auth.user?.id);
   const projects = useAppSelector(selectAllProjects);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -29,14 +30,24 @@ const ProjectsPage = () => {
     setSearch(e.target.value.toLowerCase());
   };
 
+  const visibleProjects = useMemo(
+    () =>
+      currentUserId
+        ? projects.filter((project) =>
+            project.memberIds.includes(String(currentUserId))
+          )
+        : [],
+    [projects, currentUserId]
+  );
+
   const filteredProjects = useMemo(
     () =>
-      projects
+      visibleProjects
         .filter((project) => project.title.toLowerCase().includes(search))
         .filter((project) =>
           priorityFilter === "ALL" ? true : project.priority === priorityFilter
         ),
-    [projects, search, priorityFilter]
+    [visibleProjects, search, priorityFilter]
   );
 
   return (

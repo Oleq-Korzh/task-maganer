@@ -1,0 +1,84 @@
+.users-list__item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #eaeaea;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.users-list__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.users-list__info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.users-list__name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.users-list__username {
+  font-size: 13px;
+  color: #777;
+}
+
+.users-list__meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.users-list__projects {
+  font-size: 12px;
+  color: #555;
+}
+
+.users-list__role {
+  padding: 2px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  text-transform: capitalize;
+  font-weight: 500;
+
+  &--admin {
+    background: #ffe2e2;
+    color: #b42318;
+  }
+
+  &--manager {
+    background: #e0f2fe;
+    color: #075985;
+  }
+
+  &--developer {
+    background: #ecfdf3;
+    color: #027a48;
+  }
+
+  &--qa {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  &--designer {
+    background: #f3e8ff;
+    color: #6b21a8;
+  }
+}

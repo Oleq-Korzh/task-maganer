@@ -38,6 +38,7 @@ const EditProject = () => {
     title: currentProject?.title || "",
     description: currentProject?.description || "",
     priority: currentProject?.priority || DEFAULT_PROJECT_PRIORITY,
+    memberIds: currentProject?.memberIds || [],
   };
 
   const handleSubmit = (values: ProjectFormTypes) => {
@@ -64,6 +65,7 @@ const EditProject = () => {
       <h2>Edit Project</h2>
 
       <ProjectForm
+        creatorId={currentProject.creatorId}
         initialValues={initialValues}
         onSubmit={handleSubmit}
         validationSchema={ProjectValidationSchema}
