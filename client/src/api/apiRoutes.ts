@@ -9,4 +9,5 @@ export const API_ROUTES = {
     LOGIN_CHECK_URL: `${API_BASE_URL}/login/check`,
   },
   USERS: `${API_BASE_URL}/users`,
+  NEW_USER: `${API_BASE_URL}/users/newuser`,
 } as const;
