@@ -9,5 +9,6 @@ export const APP_ROUTES = {
   NEW_TASK_IN_PROJECT_URL: "/projects/:projectId/tasks/new",
   EDIT_TASK: "/tasks/:id/edit",
   AUTH: "/auth",
+  REGISTER: "/register",
   USERS: "/users",
 } as const;
