@@ -1,4 +1,6 @@
+import { Link } from "react-router";
 import LoginForm from "@components/LoginForm/LoginForm";
+import { APP_ROUTES } from "@router/routes";
 import { userValidationSchema } from "@schemes/user/user.scheme";
 import { loginAsync } from "@store/features/auth/auth";
 import { LoginCredentials } from "@store/features/auth/auth.types";
@@ -34,6 +36,11 @@ const AuthPage = () => {
           onSubmit={handleSubmit}
           schema={userValidationSchema}
         />
+
+        <div className={styles.footer}>
+          <span>Don’t have an account?</span>
+          <Link to={APP_ROUTES.REGISTER}>Sign up</Link>
+        </div>
       </div>
     </div>
   );

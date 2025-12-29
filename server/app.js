@@ -97,6 +97,22 @@ app.get("/users/", (request, response) => {
   return response.json(usersMock.map(filteredUsersData));
 });
 
+app.post("/users/newuser", (request, response) => {
+  const data = request.body;
+
+  if (!data) {
+    return;
+  }
+
+  const newUser = {
+    id: uuidv4(),
+    ...data,
+  };
+
+  usersMock.push(newUser);
+  return response.json(newUser);
+});
+
 let currentUser = null;
 
 app.post("/login", (req, res) => {

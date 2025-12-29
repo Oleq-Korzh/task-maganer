@@ -62,3 +62,22 @@ $radius: 16px;
     transform: translateY(0);
   }
 }
+
+.footer {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #6b7280;
+
+  a {
+    color: #4f46e5;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
