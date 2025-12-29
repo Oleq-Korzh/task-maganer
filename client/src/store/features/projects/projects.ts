@@ -1,4 +1,5 @@
 import { API_ROUTES } from "@api/apiRoutes";
+import { IdType } from "@models/id.types";
 import { ProjectFormTypes, ProjectTypes } from "@models/project.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "@store/store";
@@ -28,7 +29,7 @@ export const saveProjectAsync = createAsyncThunk<
   const projectWithUser = {
     ...payload,
     creatorId: userId,
-    memberIds: [userId],
+    memberIds: Array.from(new Set([userId, ...payload.memberIds])),
   };
 
   const result = await axios.post<ProjectTypes>(
@@ -53,17 +54,32 @@ export const deleteProjectAsync = createAsyncThunk<ProjectTypes[], string>(
 export const editProjectAsync = createAsyncThunk<
   ProjectTypes[],
   { id: string; payload: Partial<ProjectTypes> }
->("projects/edit", async ({ id, payload }, { rejectWithValue }) => {
+>("projects/edit", async ({ id, payload }, { getState, rejectWithValue }) => {
   try {
-    const result = await axios.put(
-      `${API_ROUTES?.PROJECTS_URL}/${id}`,
-      payload
+    const state = getState() as RootState;
+
+    const project = state.projects.entities[id];
+    const currentUserId = state.auth.user?.id;
+
+    if (!project) {
+      throw new Error("Project not found");
+    }
+
+    const protectedIds = new Set<IdType>(
+      [project.creatorId, currentUserId].filter(Boolean)
     );
+
+    const safeMemberIds = payload.memberIds
+      ? Array.from(new Set([...payload.memberIds, ...protectedIds]))
+      : project.memberIds;
+
+    const result = await axios.put(`${API_ROUTES.PROJECTS_URL}/${id}`, {
+      ...payload,
+      memberIds: safeMemberIds,
+    });
 
     return result.data;
   } catch (error) {
-    console.log(error);
-
     return rejectWithValue(error);
   }
 });
@@ -91,6 +107,8 @@ const projectsSlice = createSlice({
     });
 
     builder.addCase(saveProjectAsync.fulfilled, (state, action) => {
+      console.log(action.payload);
+
       projectsAdapter.addOne(state, action.payload);
     });
 
@@ -99,6 +117,8 @@ const projectsSlice = createSlice({
     });
 
     builder.addCase(editProjectAsync.fulfilled, (state, action) => {
+      console.log(action.payload);
+
       projectsAdapter.setAll(state, action.payload);
     });
 

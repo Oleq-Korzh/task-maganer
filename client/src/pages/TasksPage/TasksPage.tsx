@@ -24,6 +24,10 @@ import { useAppDispatch, useAppSelector } from "@store/hooks";
 import styles from "./TasksPage.module.scss";
 
 const TasksPage = () => {
+  const [dragOverStatus, setDragOverStatus] = useState<TaskStatusProps | null>(
+    null
+  );
+  const [draggingTaskId, setDraggingTaskId] = useState<IdType | null>(null);
   const [filterDate, setFilterDate] = useState("NEW");
   const tasks = useAppSelector(selectAllTasks);
   const projects = useAppSelector(selectAllProjects);
@@ -36,6 +40,7 @@ const TasksPage = () => {
       ? selectUserById(state, findProject?.creatorId)
       : undefined
   );
+  const currentUserId = String(useAppSelector((state) => state.auth.user?.id));
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -70,39 +75,59 @@ const TasksPage = () => {
     e: React.DragEvent<HTMLDivElement>,
     taskId: IdType
   ) => {
+    setDraggingTaskId(taskId);
     e.dataTransfer.setData("taskId", taskId.toString());
     e.dataTransfer.effectAllowed = "move";
   };
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+
+  const handleDragOver = (
+    e: React.DragEvent<HTMLDivElement>,
+    status: TaskStatusProps
+  ) => {
     e.preventDefault();
+    setDragOverStatus(status);
   };
+
+  const handleDragLeave = () => {
+    setDragOverStatus(null);
+  };
+
   const handleDrop = (
     e: React.DragEvent<HTMLDivElement>,
     newStatus: TaskStatusProps
   ) => {
     e.preventDefault();
+
     const taskId = e.dataTransfer.getData("taskId");
     if (!taskId) return;
+
     const task = tasks.find((t) => t.id === taskId);
     if (task && task.status !== newStatus) {
       dispatch(editTaskAsync({ id: taskId, payload: { status: newStatus } }));
     }
+
+    setDragOverStatus(null);
+    setDraggingTaskId(null);
   };
 
   const filteredTasks = useMemo<TaskProps[]>(() => {
-    const filtered = projectId
-      ? tasks.filter((task) => task.projectId === projectId)
-      : tasks;
+    const userTasks = tasks.filter((task) => {
+      const project = projects.find((p) => p.id === task.projectId);
 
-    return [...filtered].sort((a, b) => {
-      const dateA = new Date(a.createdAt);
-      const dateB = new Date(b.createdAt);
-
-      return filterDate === "OLD"
-        ? dateA.getTime() - dateB.getTime()
-        : dateB.getTime() - dateA.getTime();
+      return project?.memberIds.includes(currentUserId);
     });
-  }, [tasks, filterDate, projectId]);
+
+    const visibleTasks = projectId
+      ? userTasks.filter((task) => task.projectId === projectId)
+      : userTasks;
+
+    return [...visibleTasks].sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+
+      return filterDate === "OLD" ? dateA - dateB : dateB - dateA;
+    });
+  }, [tasks, projects, projectId, filterDate, currentUserId]);
 
   const emptyColumns: TasksColumnsProps = {
     [TASK_STATUS.TODO]: [],
@@ -163,12 +188,19 @@ const TasksPage = () => {
           <div
             key={status}
             className={styles.Column}
-            onDragOver={handleDragOver}
+            onDragOver={(e) => handleDragOver(e, status)}
+            onDragLeave={handleDragLeave}
             onDrop={(e) => handleDrop(e, status)}
           >
             <h3 data-count={tasksByStatus[status].length}>
               {capitalizeFirstLetter(status)}
             </h3>
+
+            {dragOverStatus === status &&
+              draggingTaskId &&
+              tasks.find((t) => t.id === draggingTaskId)?.status !== status && (
+                <div className={styles.DropPlaceholder} />
+              )}
 
             {tasksByStatus[status].map((task) => (
               <div

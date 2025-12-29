@@ -3,12 +3,9 @@ import Snowfall from "react-snowfall";
 import styles from "./MainPage.module.scss";
 
 const MainPage = () => {
-
-
   return (
     <div className={styles.MainPage}>
-      <Snowfall
-        snowflakeCount={200} />
+      <Snowfall snowflakeCount={200} />
       <div className={styles.heroSection}>
         <h1>Welcome to Project Manager</h1>
         <p>Organize your projects and tasks efficiently</p>

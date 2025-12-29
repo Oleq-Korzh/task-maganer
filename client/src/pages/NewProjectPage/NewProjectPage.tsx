@@ -17,6 +17,7 @@ const NewProjectPage = () => {
     title: "",
     description: "",
     priority: DEFAULT_PROJECT_PRIORITY,
+    memberIds: [],
   };
 
   const handleSubmit = async (values: ProjectFormTypes) => {
@@ -24,9 +25,10 @@ const NewProjectPage = () => {
       const title = values.title.trim();
       const description = values.description.trim();
       const priority = values.priority;
+      const memberIds = values.memberIds;
 
       await dispatch(
-        saveProjectAsync({ title, description, priority })
+        saveProjectAsync({ title, description, priority, memberIds })
       ).unwrap();
 
       navigate(APP_ROUTES.PROJECTS_URL);

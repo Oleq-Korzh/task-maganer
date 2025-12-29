@@ -1,4 +1,6 @@
 import { PROJECT_PRIORITIES } from "@constants/projectPriorities";
+import { selectAllUsers } from "@store/features/users/users.selector";
+import { useAppSelector } from "@store/hooks";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 
 import { ProjectFormComponentProps } from "./ProjectForm.types";
@@ -6,11 +8,14 @@ import { ProjectFormComponentProps } from "./ProjectForm.types";
 import styles from "./ProjectForm.module.scss";
 
 const ProjectForm = ({
+  creatorId,
   initialValues,
   validationSchema,
   onSubmit,
   submitLabel = "Save",
 }: ProjectFormComponentProps) => {
+  const users = useAppSelector(selectAllUsers);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -20,12 +25,12 @@ const ProjectForm = ({
     >
       <Form className={styles.Form}>
         <div className={styles.formGroup}>
-          <Field
+          <Field name="title" type="text" placeholder="Enter project title" />
+          <ErrorMessage
             name="title"
-            type="text"
-            placeholder="Enter project title"
+            component="div"
+            className={styles.errorMsg}
           />
-          <ErrorMessage name="title" component="div" className={styles.errorMsg} />
         </div>
 
         <div className={styles.formGroup}>
@@ -49,6 +54,33 @@ const ProjectForm = ({
                 {priority}
               </option>
             ))}
+          </Field>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label>Project members</label>
+
+          <Field
+            name="memberIds"
+            as="select"
+            multiple
+            className={styles.multiSelect}
+          >
+            {users.map((user) => {
+              if (user.id === creatorId) {
+                return (
+                  <option key={user.id} value={user.id} disabled>
+                    {user.name} ({user.role})
+                  </option>
+                );
+              }
+
+              return (
+                <option key={user.id} value={user.id}>
+                  {user.name} ({user.role})
+                </option>
+              );
+            })}
           </Field>
         </div>
 
