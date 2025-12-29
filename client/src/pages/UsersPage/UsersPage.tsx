@@ -1,22 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Snowfall from "react-snowfall";
 import { USER_ROLES } from "@constants/userRoles";
 import { capitalizeFirstLetter } from "@helpers/dom";
-import { getUsersAsync } from "@store/features/users/users";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { selectAllUsers } from "@store/features/users/users.selector";
+import { useAppSelector } from "@store/hooks";
 
 import "./UsersPage.scss";
 
 const UsersPage = () => {
   const [filterRole, setFilterRole] = useState<string>("ALL");
-  const { data: users, isInit } = useAppSelector((store) => store.users);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!isInit) {
-      dispatch(getUsersAsync());
-    }
-  }, [isInit, dispatch]);
+  const users = useAppSelector(selectAllUsers);
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {

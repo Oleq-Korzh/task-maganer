@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter } from "react-router";
 import { checkAuthAsync } from "@store/features/auth/auth";
+import { getUsersAsync } from "@store/features/users/users";
 import { useAppDispatch } from "@store/hooks";
 
 import Content from "../Content/Content";
@@ -13,6 +14,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkAuthAsync());
+    dispatch(getUsersAsync());
   }, [dispatch]);
 
   return (

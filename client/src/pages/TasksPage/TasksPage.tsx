@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router";
 import Snowfall from "react-snowfall";
 import TaskCard from "@components/TaskCard/TaskCard";
+import UserInfoSmall from "@components/UserInfoSmall/UserInfoSmall";
 import { TASK_STATUS } from "@constants/taskStatus";
 import { capitalizeFirstLetter } from "@helpers/dom";
 import { IdType } from "@models/id.types";
@@ -17,6 +18,7 @@ import {
 } from "@store/features/projects/projects.selector";
 import { editTaskAsync, getTasksAsync } from "@store/features/tasks/tasks";
 import { selectAllTasks } from "@store/features/tasks/tasks.selector";
+import { selectUserById } from "@store/features/users/users.selector";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 
 import styles from "./TasksPage.module.scss";
@@ -29,6 +31,12 @@ const TasksPage = () => {
   const findProject = useAppSelector((state) =>
     projectId ? selectProjectById(state, projectId) : undefined
   );
+  const findUser = useAppSelector((state) =>
+    findProject?.creatorId
+      ? selectUserById(state, findProject?.creatorId)
+      : undefined
+  );
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -121,6 +129,7 @@ const TasksPage = () => {
             Tasks for project: {findProject.title}
           </h1>
           <div>Descrition: {findProject.description}</div>
+          {findUser && <UserInfoSmall {...findUser} />}
         </>
       )}
       <Snowfall color="lightblue" snowflakeCount={200} />
