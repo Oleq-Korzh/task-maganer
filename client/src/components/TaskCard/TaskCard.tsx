@@ -22,6 +22,13 @@ export default function TaskCard({
 
   const handleDeleteTask = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+
+    const isDelete = confirm("Are you sure you want to delete?");
+
+    if (!isDelete) {
+      return;
+    }
+
     dispatch(deleteTaskAsync(id));
   };
 

@@ -37,6 +37,13 @@ const ProjectCard = ({
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+
+    const isDelete = confirm("Are you sure you want to delete?");
+
+    if (!isDelete) {
+      return;
+    }
+
     dispatch(deleteProjectAsync(id));
   };
 

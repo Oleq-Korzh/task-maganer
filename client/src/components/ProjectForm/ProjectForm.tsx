@@ -15,6 +15,8 @@ const ProjectForm = ({
   submitLabel = "Save",
 }: ProjectFormComponentProps) => {
   const users = useAppSelector(selectAllUsers);
+  const currentUserId = String(useAppSelector((state) => state.auth.user?.id));
+  const actualCreatorId = creatorId || currentUserId;
 
   return (
     <Formik
@@ -67,7 +69,7 @@ const ProjectForm = ({
             className={styles.multiSelect}
           >
             {users.map((user) => {
-              if (user.id === creatorId) {
+              if (user.id === actualCreatorId) {
                 return (
                   <option key={user.id} value={user.id} disabled>
                     {user.name} ({user.role})
