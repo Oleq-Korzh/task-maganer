@@ -1,4 +1,5 @@
 import { IdType } from "@models/id.types";
+import { UserProps } from "@models/user.types";
 
 export interface AuthUser {
   id: IdType;
@@ -26,3 +27,6 @@ export interface LoginCredentials {
 export interface AuthError {
   error: string;
 }
+
+export type RegisterFormProps = Omit<UserProps, "id" | "projects"> &
+  LoginCredentials;

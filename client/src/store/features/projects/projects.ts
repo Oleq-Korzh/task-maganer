@@ -1,11 +1,11 @@
 import { API_ROUTES } from "@api/apiRoutes";
-import { ProjectTypes } from "@models/project.types";
+import { ProjectFormTypes, ProjectTypes } from "@models/project.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "@store/store";
 import axios from "axios";
 
 import { projectsAdapter } from "./projects.adapter";
-import { NewProjectPayload, ProjectsState } from "./projects.types";
+import { ProjectsState } from "./projects.types";
 
 const initialState: ProjectsState = projectsAdapter.getInitialState();
 
@@ -20,7 +20,7 @@ export const getProjectsAsync = createAsyncThunk<ProjectTypes[]>(
 
 export const saveProjectAsync = createAsyncThunk<
   ProjectTypes,
-  NewProjectPayload
+  ProjectFormTypes
 >("projects/save", async (payload, { getState }) => {
   const currentState = getState() as RootState;
   const userId = currentState?.auth?.user?.id;
